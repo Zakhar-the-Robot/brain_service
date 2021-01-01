@@ -1,5 +1,4 @@
 import socket
-import ipaddress
 import sys
 from typing import Tuple
 from subprocess import check_output
@@ -14,4 +13,3 @@ def get_net() -> Tuple[str, str]:
 
 if __name__ == "__main__":
     print(get_net())
-    # print()
