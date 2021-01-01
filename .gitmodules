@@ -1,0 +1,3 @@
+[submodule "python_packages/zakhar_pycore"]
+	path = python_packages/zakhar_pycore
+	url = ../zakhar_pycore.git
