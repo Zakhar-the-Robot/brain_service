@@ -1,9 +1,0 @@
-[Unit]
-Description=Zakhar Display service
-After=network.service
-
-[Service]
-ExecStart=/home/mind/zakhar_service/services/zakhar_display_run.sh
-
-[Install]
-WantedBy=default.target
