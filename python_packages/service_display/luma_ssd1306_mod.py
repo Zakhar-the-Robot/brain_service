@@ -5,6 +5,7 @@ import luma.oled.const
 from luma.core.render import canvas
 from luma.core.interface.serial import i2c
 from PIL import ImageFont
+from time import sleep
 
 
 class ssd1306_mod(device):
@@ -104,21 +105,25 @@ fnt_medium = ImageFont.truetype("/home/mind/zakhar_brain/zakhar_service/display/
 fnt_big = ImageFont.truetype("/home/mind/zakhar_brain/zakhar_service/display/display/fonts/long_pixel-7.ttf", 18)
 
 
-def show_l(text):
+def show_l(text, wait_sec: int = 0):
     with canvas(oled) as draw:
         draw.text((1, 6), text, fill="white", font=fnt_big)
+    sleep(wait_sec)
 
 
-def show_sl(text_line1, text_line2=""):
+def show_sl(text_line1, text_line2="", wait_sec: int = 0):
     with canvas(oled) as draw:
         draw.text((1, 3), text_line1, fill="white", font=fnt_small)
         draw.text((1, 18), text_line2, fill="white", font=fnt_big)
+    sleep(wait_sec)
 
 
-def show_mm(text_line1, text_line2=""):
+def show_mm(text_line1, text_line2="", wait_sec: int = 0):
     with canvas(oled) as draw:
         draw.text((1, 4), text_line1, fill="white", font=fnt_medium)
         draw.text((1, 22), text_line2, fill="white", font=fnt_medium)
+    sleep(wait_sec)
+
 
 def show_clear():
     oled.clear()
