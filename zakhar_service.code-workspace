@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		// pylance doesn't understand path with ${workspaceFolder}
+		"python.analysis.extraPaths": [
+			"${workspaceFolder}/python_packages",
+			"/home/mind/zakhar_service/python_packages",
+		]
+	}
+}
