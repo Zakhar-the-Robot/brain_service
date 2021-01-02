@@ -21,8 +21,22 @@ def start():
 
     while True:
         net_info = get_net()
-        show_mm("Host: %s" % net_info[0], "IP: %s" % net_info[1], wait_sec=2)
-        show_mm("zakhar.agramakov.me", "    GPLv3 (c) 2020", wait_sec=5)
+        show_mm("Host: %s" % net_info[0], "IP: %s" % net_info[1], wait_sec=1)
+        if (check_ros()):
+            show_mm("roscore is active", "skip device check", wait_sec=5)
+        else:
+            f = "x"
+            m = "x"
+            s = "x"
+            if check_face():
+                f = "v"
+            if check_motors():
+                m = "v"
+            if check_sensors():
+                s = "v"
+            show_mm("Devices:", " [%s]f   [%s]m   [%s]s" % (f, m, s), wait_sec=3)
+
+        show_mm("zakhar.agramakov.me", "    GPLv3 (c) 2020", wait_sec=1)
 
 
 if __name__ == "__main__":
