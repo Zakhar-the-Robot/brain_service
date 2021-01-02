@@ -6,6 +6,7 @@ from luma.core.render import canvas
 from luma.core.interface.serial import i2c
 from PIL import ImageFont
 from time import sleep
+from .fonts import FONT_LONG_PIXEL_7
 
 
 class ssd1306_mod(device):
@@ -100,9 +101,9 @@ class ssd1306_mod(device):
 
 bus = i2c(port=3, address=0x3C)
 oled = ssd1306_mod(bus, rotate=2, height=32)
-fnt_small = ImageFont.truetype("/home/mind/zakhar_brain/zakhar_service/display/display/fonts/long_pixel-7.ttf", 8)
-fnt_medium = ImageFont.truetype("/home/mind/zakhar_brain/zakhar_service/display/display/fonts/long_pixel-7.ttf", 12)
-fnt_big = ImageFont.truetype("/home/mind/zakhar_brain/zakhar_service/display/display/fonts/long_pixel-7.ttf", 18)
+fnt_small = ImageFont.truetype(FONT_LONG_PIXEL_7, 8)
+fnt_medium = ImageFont.truetype(FONT_LONG_PIXEL_7, 12)
+fnt_big = ImageFont.truetype(FONT_LONG_PIXEL_7, 18)
 
 
 def show_l(text, wait_sec: int = 0):
