@@ -99,7 +99,7 @@ class ssd1306_mod(device):
             self.data(list(buf))
 
 
-bus = i2c(port=3, address=0x3C)
+bus = i2c(port=1, address=0x3C)
 oled = ssd1306_mod(bus, rotate=2, height=32)
 fnt_small = ImageFont.truetype(FONT_LONG_PIXEL_7, 8)
 fnt_medium = ImageFont.truetype(FONT_LONG_PIXEL_7, 12)
