@@ -1,0 +1,15 @@
+[Unit]
+Description=Can Linux Service
+After=multi-user.target
+After=network.target
+Conflicts=getty@tty1.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/sbin/ip link set can0 up type can bitrate 125000
+ExecStop=/sbin/ip link set can0 down
+StandardInput=tty-force
+
+[Install]
+WantedBy=multi-user.target

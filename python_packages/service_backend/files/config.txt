@@ -1,0 +1,71 @@
+# Warning! Don't update this file manually. This file is managed by Zakhar Service
+
+[all]
+# Boot
+#
+# X in case of direct connection to the monitor. Probably will be removed later
+start_x=1
+
+# Audio
+#
+# We dont need audio
+dtparam=audio=off
+
+# Video
+#
+# Default config
+gpu_mem=128
+hdmi_force_hotplug=1
+hdmi_group=2
+hdmi_mode=85
+
+# I2C for the Service Display
+# 
+# Pin 3 (GPIO2/I2C1_SDA) -- SDA OLED screen
+# Pin 5 (GPIO3/I2C1_SCL) -- SCL OLED screen
+dtparam=i2c_arm=on
+
+# UART
+#
+# UART0 /dev/ttyAMA0
+# Pin 8 (GPIO14/UART_TX) --- RX UART module
+# Pin 10 (GPIO15/UART_RX) -- TX UART module
+# uart0=1
+# enable_uart=0
+# uart1=0  # turn off UART1 /dev/ttyS0. It is possible to have only one
+dtoverlay=disable-bt # UART0 /dev/ttyAMA0 used by Bluetooth by default
+dtoverlay=uart0,txd1_pin=14,rxd1_pin=15  # (pin 8/10 = GPIO14/15)
+
+# SPI for the CAN module
+#
+# Pin 24 (GPIO8/SPI0_CE0) ---- CS CAN module
+# Pin 21 (GPIO9/SPI0_MISO) --- SO CAN module
+# Pin 19 (GPIO10/SPI0_MOSI) -- SI CAN module
+# Pin 23 (GPIO11/SPI0_SCLK) -- SCK CAN module
+# Pin 32 (GPIO12/PWM0) ------- INT CAN module
+dtparam=spi=on
+dtoverlay=spi0-cs,cs0_pin=8
+dtoverlay=mcp2515-can0,oscillator=8000000,interrupt=12
+dtoverlay=spi-bcm2835-overlay
+
+
+[pi4]
+# Video
+#
+# Default config for Pi4
+dtoverlay=vc4-fkms-v3d
+max_framebuffers=2
+
+# Underclocking  and Undervoltage
+#
+# It is needed for stable working from a cheap power bank, can be adjusted
+# depending on used power source
+arm_freq=1200
+over_voltage=-2
+h264_freq=360
+isp_freq=360
+isp_freq=360
+v3d_freq=360
+hevc_freq=360
+
+

@@ -5,38 +5,22 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-SERVICE_FILE_NAME="zakhar_display.service"
-SERVICE_FILE_PATH="/lib/systemd/system/$SERVICE_FILE_NAME"
-SERVICE_FILE_CONTENT="[Unit]
-Description=Zakhar Display service
-After=multi-user.target
-Conflicts=getty@tty1.service
-
-[Service]
-Type=simple
-ExecStart=/usr/bin/python3 $SCRIPT_ROOT/display_service.py
-StandardInput=tty-force
-
-[Install]
-WantedBy=multi-user.target"
+SERVICE_FILE_NAME="canbus.service"
+SERVICE_SRC_FILE_PATH="$SCRIPT_ROOT/$SERVICE_FILE_NAME"
+SERVICE_DSC_FILE_PATH="/lib/systemd/system/$SERVICE_FILE_NAME"
 
 
-if [ ! -f $SERVICE_FILE_PATH ]; then
+if [ ! -f $SERVICE_DSC_FILE_PATH ]; then
     log "Creating a $SERVICE_FILE_NAME file"
 else
     log "$SERVICE_FILE_NAME exists! The service will be updated"
     log "Stopping the service: $SERVICE_FILE_NAME"
     systemctl stop $SERVICE_FILE_NAME
-    rm $SERVICE_FILE_PATH
+    rm $SERVICE_DSC_FILE_PATH
 fi
 
-
 log "Writing the service"
-touch $SERVICE_FILE_PATH
-echo "$SERVICE_FILE_CONTENT" > $SERVICE_FILE_PATH
-
-log "Downloading python packages"
-/usr/bin/python3 -m pip install --user -r $SCRIPT_ROOT/../requirements.txt
+cp "$SERVICE_SRC_FILE_PATH" "$SERVICE_DSC_FILE_PATH"
 
 log "Reloading systemctl daemons"
 systemctl daemon-reload

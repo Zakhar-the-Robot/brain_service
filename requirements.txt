@@ -1,2 +1,2 @@
--r ./python_packages/zakhar_pycore/requirements.txt
--r ./python_packages/service_display/requirements.txt
+-r ./python_packages/service_backend/requirements.txt
+-r ./python_packages/service_frontend/requirements.txt
