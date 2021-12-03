@@ -3,10 +3,8 @@ import luma.core.error
 import luma.core.framebuffer
 import luma.oled.const
 from luma.core.render import canvas
-from luma.core.interface.serial import i2c
-from PIL import ImageFont
 from time import sleep
-from .fonts import FONT_LONG_PIXEL_7
+from .fonts import FONT_LONG_PIXEL_7_LARGE, FONT_LONG_PIXEL_7_MEDIUM, FONT_LONG_PIXEL_7_SMALL
 
 
 class ssd1306_mod(device):
@@ -43,7 +41,8 @@ class ssd1306_mod(device):
         }.get((width, height))
 
         if settings is None:
-            raise luma.core.error.DeviceDisplayModeError("Unsupported display mode: {0} x {1}".format(width, height))
+            raise luma.core.error.DeviceDisplayModeError("Unsupported display mode: {0} x {1}".format(
+                width, height))
 
         self._pages = height // 8
         self._mask = [1 << (i // width) % 8 for i in range(width * height)]
@@ -54,9 +53,9 @@ class ssd1306_mod(device):
         self.command(self._const.DISPLAYOFF, self._const.SETDISPLAYCLOCKDIV, settings['displayclockdiv'],
                      self._const.SETMULTIPLEX, settings['multiplex'], self._const.SETDISPLAYOFFSET, 0x00,
                      self._const.SETSTARTLINE, self._const.CHARGEPUMP, 0x14, self._const.MEMORYMODE, 0x00,
-                     self._const.SETSEGMENTREMAP, self._const.COMSCANDEC, self._const.SETCOMPINS, settings['compins'],
-                     self._const.SETPRECHARGE, 0xF1, self._const.SETVCOMDETECT, 0x40, self._const.DISPLAYALLON_RESUME,
-                     self._const.NORMALDISPLAY)
+                     self._const.SETSEGMENTREMAP, self._const.COMSCANDEC, self._const.SETCOMPINS,
+                     settings['compins'], self._const.SETPRECHARGE, 0xF1, self._const.SETVCOMDETECT, 0x40,
+                     self._const.DISPLAYALLON_RESUME, self._const.NORMALDISPLAY)
 
         self.contrast(0xCF)
         self.clear()
@@ -98,33 +97,25 @@ class ssd1306_mod(device):
 
             self.data(list(buf))
 
-
-bus = i2c(port=1, address=0x3C)
-oled = ssd1306_mod(bus, rotate=2, height=32)
-fnt_small = ImageFont.truetype(FONT_LONG_PIXEL_7, 8)
-fnt_medium = ImageFont.truetype(FONT_LONG_PIXEL_7, 12)
-fnt_big = ImageFont.truetype(FONT_LONG_PIXEL_7, 18)
+    def show_l(self, text, wait_sec: int = 0):
+        with canvas(self) as draw:
+            draw.text((1, 6), text, fill="white", font=FONT_LONG_PIXEL_7_LARGE)
+        sleep(wait_sec)
 
 
-def show_l(text, wait_sec: int = 0):
-    with canvas(oled) as draw:
-        draw.text((1, 6), text, fill="white", font=fnt_big)
-    sleep(wait_sec)
+    def show_sl(self, text_line1, text_line2="", wait_sec: int = 0):
+        with canvas(self) as draw:
+            draw.text((1, 3), text_line1, fill="white", font=FONT_LONG_PIXEL_7_SMALL)
+            draw.text((1, 18), text_line2, fill="white", font=FONT_LONG_PIXEL_7_LARGE)
+        sleep(wait_sec)
 
 
-def show_sl(text_line1, text_line2="", wait_sec: int = 0):
-    with canvas(oled) as draw:
-        draw.text((1, 3), text_line1, fill="white", font=fnt_small)
-        draw.text((1, 18), text_line2, fill="white", font=fnt_big)
-    sleep(wait_sec)
+    def show_mm(self, text_line1, text_line2="", wait_sec: int = 0):
+        with canvas(self) as draw:
+            draw.text((1, 4), text_line1, fill="white", font=FONT_LONG_PIXEL_7_MEDIUM)
+            draw.text((1, 22), text_line2, fill="white", font=FONT_LONG_PIXEL_7_MEDIUM)
+        sleep(wait_sec)
 
 
-def show_mm(text_line1, text_line2="", wait_sec: int = 0):
-    with canvas(oled) as draw:
-        draw.text((1, 4), text_line1, fill="white", font=fnt_medium)
-        draw.text((1, 22), text_line2, fill="white", font=fnt_medium)
-    sleep(wait_sec)
-
-
-def show_clear():
-    oled.clear()
+    def show_clear(self):
+        self.clear()

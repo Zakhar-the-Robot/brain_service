@@ -5,7 +5,7 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-SERVICE_FILE_NAME="zakhar_display.service"
+SERVICE_FILE_NAME="zakhar.service"
 
 log "Stopping the service: $SERVICE_FILE_NAME"
 systemctl stop $SERVICE_FILE_NAME

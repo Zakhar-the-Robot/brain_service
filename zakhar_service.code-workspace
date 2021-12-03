@@ -1,14 +1,95 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {
-		// pylance doesn't understand path with ${workspaceFolder}
-		"python.analysis.extraPaths": [
-			"${workspaceFolder}/python_packages",
-			"/home/mind/zakhar_service/python_packages",
-		]
-	}
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        // pylance doesn't understand path with ${workspaceFolder}
+        "python.analysis.extraPaths": [
+            "${workspaceFolder}/python_packages",
+            "/home/mind/zakhar_service/python_packages",
+        ],
+        "python.pythonPath": "python",
+    },
+    "extensions": {
+        "recommendations": [
+            "rioj7.command-variable"
+        ]
+    },
+    "tasks": {
+        "version": "2.0.0",
+        "tasks": [
+            {
+                "label": "Install Service",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/service_install.sh"
+                ]
+            },
+            {
+                "label": "Uninstall Service",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/service_uninstall.sh"
+                ]
+            },
+            {
+                "label": "Restart Service",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/service_restart.sh"
+                ]
+            },
+            {
+                "label": "Stop Service",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/service_stop.sh"
+                ]
+            },
+        ]
+    },
+    "launch": {
+        "configurations": [
+            {
+                "name": "Service",
+                "type": "python",
+                "request": "launch",
+                "program": "${workspaceFolder}/scripts/service.py",
+                "console": "integratedTerminal",
+                "cwd": "${fileDirname}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
+                },
+                "justMyCode": false,
+                "linux": {
+                    "sudo": true,
+                },
+            },
+            {
+                "name": "Python: Current File",
+                "type": "python",
+                "request": "launch",
+                "program": "${file}",
+                "console": "integratedTerminal",
+                "cwd": "${fileDirname}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
+                },
+                "justMyCode": false,
+                "linux": {
+                    "sudo": true,
+                },
+            },
+        ],
+    }
 }
