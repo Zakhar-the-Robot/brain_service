@@ -27,11 +27,14 @@ class ZakharServiceBackend:
         self.config_monitor = config_monitor
         self.update_period_ms = 0
         self.status = {"os": OsStatus(), "dev": DevStatus(), "service": {}, "err": {}, "warn": {}}
+        
         self.thread_main = None  # type: StoppableThread | None
         self.thread_cfg_monitor = None  # type: StoppableThread | None
-        self.start(update_period_ms)
+        self.thread_connection = None  # type: StoppableThread | None
+        
         self.connection_conn = None  # type: socket.socket | None
         self.connection_addr = None
+        self.start(update_period_ms)
 
     def __del__(self):
         self.stop()
@@ -105,24 +108,25 @@ class ZakharServiceBackend:
 
     def _start_init(self):
         if not self.no_connection:
-            self._wait_for_connection()
+            self.thread_connection = StoppableThread(target=self._wait_for_connection)
+            self.thread_connection.start()
 
-    def cfg_monitor(self):
+    def cfg_monitor_target(self):
         while True:
             sleep(5)
             self._configure()
 
-    def main(self):
+    def main_target(self):
         self._start_init()
         while True:
             self._main_once()
 
     def start(self, update_period_ms=250):
         self.update_period_ms = update_period_ms
-        self.thread_main = StoppableThread(target=self.main)
+        self.thread_main = StoppableThread(target=self.main_target)
         self.thread_main.start()
         if self.config_monitor:
-            self.thread_cfg_monitor = StoppableThread(target=self.cfg_monitor)
+            self.thread_cfg_monitor = StoppableThread(target=self.cfg_monitor_target)
             self.thread_cfg_monitor.start()
 
     def stop(self):

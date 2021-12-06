@@ -1,4 +1,8 @@
 #!/bin/bash
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
 set -e # exit when any command fails
 SCRIPT_ROOT=$(dirname $(readlink -f "$0"))
 SCRIPT_NAME=$(basename "$0")
@@ -10,7 +14,8 @@ SERVICE_FILE_PATH="/lib/systemd/system/$SERVICE_FILE_NAME"
 SERVICE_FILE_CONTENT="[Unit]
 Description=Zakhar Linux Service
 After=multi-user.target
-After=network.target
+After=canbus.service
+Requires=canbus.service
 Conflicts=getty@tty1.service
 
 [Service]

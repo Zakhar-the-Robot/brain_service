@@ -37,24 +37,31 @@ class ZakharServiceFrontend:
         self.stop()
 
     def _connect(self):
-        self.log.info("Client: Connecting ...")
+        self.log.info("Connecting ...")
 
         HOST = '127.0.0.1'  # The server's hostname or IP address
         PORT = 65500  # The port used by the server
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((HOST, PORT))
-        self.log.info("Client: Connect!")
+        self.log.info("Connect!")
 
     def _receive_backend_data(self):
         if self.socket:
-            self.log.debug(f"Client: receiving...")
+            self.log.debug(f"Receiving...")
             new_data_raw = self.socket.recv(1024).decode()
             new_data = ast.literal_eval(new_data_raw)
             self.data = new_data
-            self.log.debug(f"Client: {self.data}")
+            self.log.debug(f"{self.data}")
 
     def _reader_main(self):
-        self._connect()
+        while True:
+            try:
+                self._connect()
+                break
+            except ConnectionRefusedError:
+                t = 2
+                self.log.warn(f"Connection refused! Wait for {t} sec and retry...")
+                time.sleep(t)
         while True:
             self._receive_backend_data()
 
