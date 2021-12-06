@@ -40,3 +40,7 @@ class PiCfg():
     @staticmethod
     def set_hostname():
         pass
+    
+    @staticmethod
+    def init_zakhar_dir():
+       pass

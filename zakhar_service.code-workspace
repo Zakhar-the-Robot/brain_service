@@ -10,7 +10,6 @@
             "${workspaceFolder}/python_packages",
             "/home/mind/zakhar_service/python_packages",
         ],
-        "python.pythonPath": "python",
     },
     "extensions": {
         "recommendations": [

@@ -12,8 +12,8 @@
 # *************************************************************************
 import os
 import subprocess
-import ifcfg
 import psutil
+import ifcfg
 
 if psutil.LINUX:
     import pwd
