@@ -10,15 +10,19 @@ function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
 SERVICE_FILE_NAME="zakhar.service"
+SERVICE_FILE_PATH="/lib/systemd/system/$SERVICE_FILE_NAME"
 
-log "Stopping the service: $SERVICE_FILE_NAME"
-systemctl stop $SERVICE_FILE_NAME
 
-log "Reload: $SERVICE_FILE_NAME"
-systemctl daemon-reload
-
-log "Starting the service: $SERVICE_FILE_NAME"
-systemctl start $SERVICE_FILE_NAME
+if [ ! -f $SERVICE_FILE_PATH ]; then
+    log "$SERVICE_FILE_NAME does not exist."
+else
+    log "Disabling the service"
+    systemctl disable $SERVICE_FILE_NAME
+    log "Stopping the service: $SERVICE_FILE_NAME"
+    systemctl stop $SERVICE_FILE_NAME
+    rm $SERVICE_FILE_PATH
+    log "The service was uninstalled."
+fi
 
 log "[ Done ]"
 

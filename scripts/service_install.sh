@@ -9,52 +9,15 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-SERVICE_FILE_NAME="zakhar.service"
-SERVICE_FILE_PATH="/lib/systemd/system/$SERVICE_FILE_NAME"
-SERVICE_FILE_CONTENT="[Unit]
-Description=Zakhar Linux Service
-After=multi-user.target
-After=canbus.service
-Requires=canbus.service
-Conflicts=getty@tty1.service
+log "Installation of the Zakhar Brain Service..."
+echo ""
 
-[Service]
-Type=simple
-ExecStart=/usr/bin/python3 $SCRIPT_ROOT/service.py
-StandardInput=tty-force
+bash $SCRIPT_ROOT/python/packages_download.sh
+bash $SCRIPT_ROOT/python/packages_install_symlinks.sh
 
-[Install]
-WantedBy=multi-user.target"
-
-
-if [ ! -f $SERVICE_FILE_PATH ]; then
-    log "Creating a $SERVICE_FILE_NAME file"
-else
-    log "$SERVICE_FILE_NAME exists! The service will be updated"
-    log "Stopping the service: $SERVICE_FILE_NAME"
-    systemctl stop $SERVICE_FILE_NAME
-    rm $SERVICE_FILE_PATH
-fi
-
-
-log "Writing the service"
-touch $SERVICE_FILE_PATH
-echo "$SERVICE_FILE_CONTENT" > $SERVICE_FILE_PATH
-
-log "Downloading python packages"
-/usr/bin/python3 -m pip install --user -r $SCRIPT_ROOT/../requirements.txt
-
-log "Reloading systemctl daemons"
-systemctl daemon-reload
-
-log "Enabling the service"
-systemctl enable $SERVICE_FILE_NAME
-
-log "Install canbus.service"
 bash $SCRIPT_ROOT/services/canbus_install.sh
+bash $SCRIPT_ROOT/services/zakhar_install.sh
 
-log "Starting the service: $SERVICE_FILE_NAME"
-systemctl start $SERVICE_FILE_NAME
-
+echo ""
 log "[ Done ]"
 

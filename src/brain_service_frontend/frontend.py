@@ -10,23 +10,29 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
-import time
+from logging import INFO
 from psutil import WINDOWS as IS_WINDOWS
-from service_common import StoppableThread, log
-from service_common.common_types import Status
-from .display import Display
-import socket
+from typing import Union
 import ast
+import socket
+import time
+
+from brain_pycore.thread import StoppableThread
+from brain_pycore.logging import new_logger
+
+from brain_service_common.common_types import Status
+from brain_service_common.constants import DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT
+from .display import Display
 
 
 class ZakharServiceFrontend:
     ERROR_SYMBOL = "e"
     WARNING_SYMBOL = "w"
 
-    def __init__(self, log_level=log.INFO) -> None:
-        self.log = log.get_logger("Front", log_level=log_level)
-        self.thread_main = None  # type: StoppableThread | None
-        self.thread_reader = None  # type: StoppableThread | None
+    def __init__(self, log_level=INFO) -> None:
+        self.log = new_logger("Front", log_level=log_level)
+        self.thread_main = None  # type: Union[StoppableThread, None]
+        self.thread_reader = None  # type: Union[StoppableThread, None]
         self.display = Display(IS_WINDOWS)
         self.markers = {"err": "", "warn": ""}
         self.data = {}
@@ -39,10 +45,8 @@ class ZakharServiceFrontend:
     def _connect(self):
         self.log.info("Connecting ...")
 
-        HOST = '127.0.0.1'  # The server's hostname or IP address
-        PORT = 65500  # The port used by the server
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.connect((HOST, PORT))
+        self.socket.connect((DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT))
         self.log.info("Connect!")
 
     def _receive_backend_data(self):
@@ -142,4 +146,5 @@ class ZakharServiceFrontend:
     def stop(self):
         if self.display:
             self.display.show_l("Turn off", 1)
-        self.thread_main.stop()
+        if self.thread_main:
+            self.thread_main.stop()

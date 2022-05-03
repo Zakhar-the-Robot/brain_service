@@ -7,8 +7,8 @@
     "settings": {
         // pylance doesn't understand path with ${workspaceFolder}
         "python.analysis.extraPaths": [
-            "${workspaceFolder}/python_packages",
-            "/home/mind/zakhar_service/python_packages",
+            "${workspaceFolder}/src",
+            "/zakhar/python_packages/"
         ],
     },
     "extensions": {
@@ -63,7 +63,7 @@
                 "name": "Service",
                 "type": "python",
                 "request": "launch",
-                "program": "${workspaceFolder}/scripts/service.py",
+                "program": "${workspaceFolder}/src/brain_service/service.py",
                 "console": "integratedTerminal",
                 "cwd": "${fileDirname}",
                 "env": {

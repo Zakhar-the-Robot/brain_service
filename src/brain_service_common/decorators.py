@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # *************************************************************************
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
@@ -11,8 +10,8 @@
 #
 # *************************************************************************
 
-from service_common.common_types import Status
-from service_common.internal import is_zakhar_environment
+from brain_service_common.common_types import Status
+from brain_service_common.internal import is_zakhar_environment
 
 
 def zakhar_only_bool(func):
