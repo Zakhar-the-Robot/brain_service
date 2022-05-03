@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # *************************************************************************
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
@@ -10,19 +9,23 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
+from logging import INFO
 from time import sleep
-from service_backend.dev_status import DevStatus
-from service_backend.picfg import PiCfg
-from service_backend.files import Files, PATH_ZK_CONFIG, PATH_RPI_CMDLINE, PATH_RPI_CONFIG, PATH_ZK_CMDLINE
-from service_common import StoppableThread, log
-from service_common.is_ import Is
+
+from brain_pycore.thread import StoppableThread
+from brain_pycore.logging import new_logger
+
+from brain_service_backend.dev_status import DevStatus
+from brain_service_backend.picfg import PiCfg
+from brain_service_common.is_ import Is
+from brain_service_common.constants import DEFAULT_BACKEND_PORT, DEFAULT_BACKEND_HOST
 from .os_status import OsStatus
 import socket
 
 
 class ZakharServiceBackend:
-    def __init__(self, update_period_ms=250, no_connection=False, config_monitor=False, log_level=log.INFO) -> None:
-        self.log = log.get_logger("Back", log_level=log_level)
+    def __init__(self, update_period_ms=250, no_connection=False, config_monitor=False, log_level=INFO) -> None:
+        self.log = new_logger("Back", log_level=log_level)
         self.no_connection = no_connection
         self.config_monitor = config_monitor
         self.update_period_ms = 0
@@ -31,6 +34,7 @@ class ZakharServiceBackend:
         self.thread_main = None  # type: StoppableThread | None
         self.thread_cfg_monitor = None  # type: StoppableThread | None
         self.thread_connection = None  # type: StoppableThread | None
+        self.thread_can_listener = None  # type: StoppableThread | None
         
         self.connection_conn = None  # type: socket.socket | None
         self.connection_addr = None
@@ -43,11 +47,9 @@ class ZakharServiceBackend:
         return str(self.status)
 
     def _wait_for_connection(self):
-        HOST = '127.0.0.1'  # Standard loopback interface address (localhost)
-        PORT = 65500  # Port to listen on (non-privileged ports are > 1023)
         self.log.info("Server: Wait for connection ...")
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.bind((HOST, PORT))
+            s.bind((DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT))
             s.listen()
             self.connection_conn, self.connection_addr = s.accept()
             self.log.info("Server: Connect!")

@@ -14,7 +14,7 @@ from time import sleep
 from datetime import datetime
 import subprocess
 
-from service_common.decorators import zakhar_only_str
+from brain_service_common.decorators import zakhar_only_str
 
 class Get:
     @staticmethod

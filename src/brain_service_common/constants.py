@@ -2,17 +2,14 @@
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
 #
-# This file is licensed under the terms of the MIT license.  
+# This file is licensed under the terms of the MIT license.
 # For a copy, see: https://opensource.org/licenses/MIT
 #
 # site:    https://agramakov.me
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
-from enum import IntEnum
 
-class Status:
-    UNKNOWN = -1
-    INACTIVE = 0
-    ACTIVE = 1
-    NA = 2
+DEFAULT_CAN_PERIOD_SEC = 3
+DEFAULT_BACKEND_PORT = 60001
+DEFAULT_BACKEND_HOST = '127.0.0.1'

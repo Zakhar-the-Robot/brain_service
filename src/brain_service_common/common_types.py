@@ -10,7 +10,8 @@
 #
 # *************************************************************************
 
-from .is_ import Is
-from .get import Get
-from .thread import StoppableThread
-from .common_types import Status
+class Status:
+    UNKNOWN = -1
+    INACTIVE = 0
+    ACTIVE = 1
+    NA = 2

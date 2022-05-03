@@ -9,16 +9,8 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-SERVICE_FILE_NAME="zakhar.service"
+log "Downloading python packages"
 
-log "Stopping the service: $SERVICE_FILE_NAME"
-systemctl stop $SERVICE_FILE_NAME
-
-log "Reload: $SERVICE_FILE_NAME"
-systemctl daemon-reload
-
-log "Starting the service: $SERVICE_FILE_NAME"
-systemctl start $SERVICE_FILE_NAME
+sudo /usr/bin/python3 -m pip install -r $SCRIPT_ROOT/../../requirements.txt
 
 log "[ Done ]"
-

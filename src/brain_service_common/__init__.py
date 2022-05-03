@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # *************************************************************************
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
@@ -11,13 +10,7 @@
 #
 # *************************************************************************
 
-
-class StatusClass(object):
-    def update(self):
-        raise NotImplementedError
-
-    def __repr__(self) -> str:
-        return str(vars(self))
-
-    def __str__(self) -> str:
-        return str(vars(self))
+from . import constants
+from .common_types import Status
+from .get import Get
+from .is_ import Is

@@ -45,8 +45,8 @@ dtoverlay=uart0,txd1_pin=14,rxd1_pin=15  # (pin 8/10 = GPIO14/15)
 # Pin 32 (GPIO12/PWM0) ------- INT CAN module
 dtparam=spi=on
 dtoverlay=spi0-cs,cs0_pin=8
-dtoverlay=mcp2515-can0,oscillator=8000000,interrupt=12
 dtoverlay=spi-bcm2835-overlay
+dtoverlay=mcp2515-can0,oscillator=12000000,interrupt=25,spimaxfrequency=2000000
 
 
 [pi4]

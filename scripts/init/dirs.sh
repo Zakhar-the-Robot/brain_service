@@ -13,6 +13,6 @@
 
 DIR_SHARED="/zakhar"
 DIR_PY="${DIR_SHARED}/python_packages" 
-DIR_SRV="${DIR_SHARED}/service"
-DIR_SCR="${DIR_SHARED}/scripts"
 DIR_ROS="${DIR_SHARED}/ros_packages"
+DIR_SCR="${DIR_SHARED}/scripts"
+DIR_SRV="${DIR_SHARED}/service"

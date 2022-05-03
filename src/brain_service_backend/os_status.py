@@ -9,7 +9,7 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
-from service_common import Get, Is, Status
+from brain_service_common import Get, Is, Status
 from ._status import StatusClass
 
 

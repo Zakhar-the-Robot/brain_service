@@ -1,9 +1,8 @@
-#!/usr/bin/env python3
 # *************************************************************************
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
 #
-# This file is licensed under the terms of the MIT license.  
+# This file is licensed under the terms of the MIT license.
 # For a copy, see: https://opensource.org/licenses/MIT
 #
 # site:    https://agramakov.me
@@ -14,16 +13,22 @@ import os
 import subprocess
 import psutil
 import ifcfg
-
+from datetime import datetime
 if psutil.LINUX:
     import pwd
 
-from service_common.internal import is_zakhar_environment
+from brain_pycore.can import canbus
+from brain_pycore.logging import log
+
+from brain_service_common.internal import is_zakhar_environment
+from brain_service_common.constants import DEFAULT_CAN_PERIOD_SEC
 from .common_types import Status
 from .decorators import zakhar_only_bool
 
-
+# TODO:make all methods properties 
 class Is:
+    
+
     @staticmethod
     def service_active(name: str) -> bool:
         if os.system('systemctl is-active --quiet %s' % name):
@@ -55,12 +60,23 @@ class Is:
     def zakhar():
         return is_zakhar_environment()
 
-    # TODO Implement a check that the device is in the CAN network
     @staticmethod
     @zakhar_only_bool
-    def can_device(device_id=None):
+    def can_device(device_id: int=0):
+        # Status check
+        ready = True
         if not Is.can_driver_installed():
+            log.warn("Linux canbus driver is not installed")
+            ready = False
+        if canbus.is_stopped:
+            log.warn("brain_pycore canbus Listener is not started!")
+            ready = False
+        if not ready:
             return Status.UNKNOWN
+        # Check the last device appearence
+        last_dev_upd = canbus.get_last_device_log_time(device_id)
+        if last_dev_upd and (datetime.now().timestamp() - last_dev_upd.timestamp() < DEFAULT_CAN_PERIOD_SEC):
+            return Status.ACTIVE
         return Status.INACTIVE
 
     @staticmethod
@@ -71,9 +87,9 @@ class Is:
             return "UP" in can0["flags"]
         else:
             return False
-    
+
     @staticmethod
-    @zakhar_only_bool 
+    @zakhar_only_bool
     def user():
         try:
             pwd.getpwnam('mind')

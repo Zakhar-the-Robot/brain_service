@@ -1,2 +1,3 @@
--r ./python_packages/service_backend/requirements.txt
--r ./python_packages/service_frontend/requirements.txt
+brain_pycore > 1.4.0
+-r ./src/brain_service_backend/requirements.txt
+-r ./src/brain_service_frontend/requirements.txt
