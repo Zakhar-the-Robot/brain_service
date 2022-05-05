@@ -25,3 +25,11 @@ ZAKHAR_ROS_PACKAGE_PATH="/zakhar/ros_packages"
 
 PYTHONPATH="$PYTHONPATH:$ZAKHAR_PYTHONPATH"
 ROS_PACKAGE_PATH="$ROS_PACKAGE_PATH:$ZAKHAR_ROS_PACKAGE_PATH"
+
+zakhar_service_status_all() {
+    sudo systemctl status brain_frontend.service
+    sudo systemctl status brain_backend.service
+    sudo systemctl status canbus.service
+}
+
+export -f zakhar_service_status_all
