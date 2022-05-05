@@ -20,7 +20,7 @@
         "version": "2.0.0",
         "tasks": [
             {
-                "label": "Install Service",
+                "label": "All - Install",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
@@ -29,7 +29,7 @@
                 ]
             },
             {
-                "label": "Uninstall Service",
+                "label": "All - Uninstall",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
@@ -38,7 +38,7 @@
                 ]
             },
             {
-                "label": "Restart Service",
+                "label": "All - Restart",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
@@ -47,7 +47,7 @@
                 ]
             },
             {
-                "label": "Stop Service",
+                "label": "All - Stop",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
@@ -55,15 +55,121 @@
                     "${workspaceFolder}/scripts/service_stop.sh"
                 ]
             },
+            {
+                "label": "All - Status",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/service_status.sh"
+                ]
+            },
+            {
+                "label": "Backend - Install",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/services/brain_backend_install.sh"
+                ]
+            },
+            {
+                "label": "Backend - Uninstall",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/services/brain_backend_uninstall.sh"
+                ]
+            },
+            {
+                "label": "Backend - Restart",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/services/brain_backend_restart.sh"
+                ]
+            },
+            {
+                "label": "Frontend - Install",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/services/brain_frontend_install.sh"
+                ]
+            },
+            {
+                "label": "Frontend - Uninstall",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/services/brain_frontend_uninstall.sh"
+                ]
+            },
+            {
+                "label": "Frontend - Restart",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/services/brain_frontend_restart.sh"
+                ]
+            },
+            {
+                "label": "Canbus - Install",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/services/canbus_install.sh"
+                ]
+            },
+            {
+                "label": "Canbus - Uninstall",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/services/canbus_uninstall.sh"
+                ]
+            },
+            {
+                "label": "Canbus - Restart",
+                "type": "shell",
+                "command": "sudo",
+                "args": [
+                    "bash",
+                    "${workspaceFolder}/scripts/services/canbus_restart.sh"
+                ]
+            },
+
         ]
     },
     "launch": {
         "configurations": [
             {
-                "name": "Service",
+                "name": "Backend",
                 "type": "python",
                 "request": "launch",
-                "program": "${workspaceFolder}/src/brain_service/service.py",
+                "program": "${workspaceFolder}/src/brain_service_backend",
+                "console": "integratedTerminal",
+                "cwd": "${fileDirname}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
+                },
+                "justMyCode": false,
+                "linux": {
+                    "sudo": true,
+                },
+            },
+            {
+                "name": "Frontend",
+                "type": "python",
+                "request": "launch",
+                "program": "${workspaceFolder}/src/brain_service_frontend",
                 "console": "integratedTerminal",
                 "cwd": "${fileDirname}",
                 "env": {

@@ -144,6 +144,7 @@ class ZakharServiceFrontend:
         self.thread_reader.start()
 
     def stop(self):
+        self.log.info("Terminating...")
         if self.display:
             self.display.show_l("Turn off", 1)
         if self.thread_main:
