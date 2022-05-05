@@ -46,6 +46,7 @@ class ZakharServiceFrontend:
         self.log.info("Connecting ...")
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.settimeout(1)
         self.socket.connect((DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT))
         self.log.info("Connect!")
 
@@ -67,7 +68,11 @@ class ZakharServiceFrontend:
                 self.log.warn(f"Connection refused! Wait for {t} sec and retry...")
                 time.sleep(t)
         while True:
-            self._receive_backend_data()
+            try:
+                self._receive_backend_data()
+            except Exception as e:
+                # Print any error
+                self.log.error(str(e))
 
     def _get_markers_str(self) -> str:
         s = ""
