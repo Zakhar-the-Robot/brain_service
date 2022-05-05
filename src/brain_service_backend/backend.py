@@ -11,9 +11,11 @@
 # *************************************************************************
 from logging import INFO
 from time import sleep
+import errno
 
 from brain_pycore.thread import StoppableThread
 from brain_pycore.logging import new_logger
+from brain_pycore.can import canbus
 
 from brain_service_backend.dev_status import DevStatus
 from brain_service_backend.picfg import PiCfg
@@ -38,6 +40,7 @@ class ZakharServiceBackend:
         
         self.connection_conn = None  # type: socket.socket | None
         self.connection_addr = None
+        canbus.start()
         self.start(update_period_ms)
 
     def __del__(self):
@@ -49,6 +52,7 @@ class ZakharServiceBackend:
     def _wait_for_connection(self):
         self.log.info("Server: Wait for connection ...")
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)  # make it reusable
             s.bind((DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT))
             s.listen()
             self.connection_conn, self.connection_addr = s.accept()
@@ -76,7 +80,11 @@ class ZakharServiceBackend:
         if self.connection_conn:
             to_send = self._get_full_status_dict()
             self.log.debug(f"Server: to send: {str(to_send)}")
-            self.connection_conn.sendall(str(to_send).encode())
+            try:
+                self.connection_conn.sendall(str(to_send).encode())
+            except IOError as e:
+                if e.errno == errno.EPIPE:
+                    pass
 
     def _configure(self):
         # TODO add /etc/profile configuration
@@ -132,5 +140,5 @@ class ZakharServiceBackend:
             self.thread_cfg_monitor.start()
 
     def stop(self):
-        if self.thread_main:
+        if getattr(self, "thread_main", None):
             self.thread_main.stop()
