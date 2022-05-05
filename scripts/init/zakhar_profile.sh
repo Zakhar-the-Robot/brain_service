@@ -32,4 +32,25 @@ zakhar_service_status_all() {
     sudo systemctl status canbus.service
 }
 
+zakhar_service_start_backend(){
+    sudo systemctl start brain_backend.service
+}
+zakhar_service_stop_backend(){
+    sudo systemctl stop brain_backend.service
+}
+
+zakhar_service_start_frontend(){
+    sudo systemctl start brain_frontend.service
+}
+zakhar_service_stop_frontend(){
+    sudo systemctl stop brain_frontend.service
+}
+
+zakhar_service_start_canbus(){
+    sudo systemctl start canbus.service
+}
+zakhar_service_stop_canbus(){
+    sudo systemctl stop canbus.service
+}
+
 export -f zakhar_service_status_all
