@@ -1,3 +1,2 @@
-brain_pycore > 1.4.0
 -r ./src/brain_service_backend/requirements.txt
 -r ./src/brain_service_frontend/requirements.txt

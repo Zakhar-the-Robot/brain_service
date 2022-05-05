@@ -9,14 +9,16 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-log "Uninstall brain_backend.service"
-$SCRIPT_ROOT/services/brain_backend_uninstall.sh
+SERVICE_FILE_NAME="brain_frontend.service"
 
-log "Uninstall brain_frontend.service"
-$SCRIPT_ROOT/services/brain_frontend_uninstall.sh
+log "Stopping the service: $SERVICE_FILE_NAME"
+systemctl stop $SERVICE_FILE_NAME
 
-log "Uninstall canbus.service"
-$SCRIPT_ROOT/services/canbus_uninstall.sh
+log "Reload: $SERVICE_FILE_NAME"
+systemctl daemon-reload
+
+log "Starting the service: $SERVICE_FILE_NAME"
+systemctl start $SERVICE_FILE_NAME
 
 log "[ Done ]"
 
