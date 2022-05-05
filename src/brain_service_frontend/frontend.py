@@ -46,6 +46,7 @@ class ZakharServiceFrontend:
         self.log.info("Connecting ...")
 
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.socket.settimeout(1)
         self.socket.connect((DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT))
         self.log.info("Connect!")
 
