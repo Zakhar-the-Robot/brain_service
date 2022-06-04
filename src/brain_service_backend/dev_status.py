@@ -20,6 +20,6 @@ class DevStatus(StatusClass):
         self.motors = -1
 
     def update(self):
-        self.face = Is.can_device(0x1)  # TODO change id after testing
-        self.sensors = Is.can_device(0x7)  # TODO change id after testing
-        self.motors = Is.can_device(0x2c)  # TODO change id after testing
+        self.face = Is.can_device(0x3)  # TODO change id after testing
+        self.sensors = Is.can_device(0x4)  # TODO change id after testing
+        self.motors = Is.can_device(0x2)  # TODO change id after testing
