@@ -119,7 +119,7 @@ class ZakharServiceFrontend:
                         val = "/"
                     else:
                         val = "?"
-                    d_str += f"{dev[0]}:[{val}] "
+                    d_str += f"[{val}]{dev[0]} "
             return d_str.strip()
 
         dev = self.data.get("dev")
