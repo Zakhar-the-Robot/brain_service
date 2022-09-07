@@ -10,7 +10,6 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
-from logging import INFO
 from psutil import WINDOWS as IS_WINDOWS
 from typing import Union
 import ast
@@ -18,7 +17,7 @@ import socket
 import time
 
 from brain_pycore.thread import StoppableThread
-from brain_pycore.logging import new_logger
+from brain_pycore.logging import new_logger, LOG_LEVEL
 
 from brain_service_common.common_types import Status
 from brain_service_common.constants import DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT
@@ -29,7 +28,7 @@ class ZakharServiceFrontend:
     ERROR_SYMBOL = "e"
     WARNING_SYMBOL = "w"
 
-    def __init__(self, log_level=INFO) -> None:
+    def __init__(self, log_level=LOG_LEVEL.INFO) -> None:
         self.log = new_logger("Front", log_level=log_level)
         self.thread_main = None  # type: Union[StoppableThread, None]
         self.thread_reader = None  # type: Union[StoppableThread, None]
