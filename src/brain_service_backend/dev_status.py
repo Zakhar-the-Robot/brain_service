@@ -9,7 +9,12 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
+from datetime import datetime
+from typing import Dict
 from brain_service_common.is_ import Is
+from brain_service_common.common_types import Status
+from brain_service_common.constants import DEFAULT_CAN_PERIOD_SEC
+
 from ._status import StatusClass
 
 
@@ -20,8 +25,17 @@ class DevStatus(StatusClass):
         self.motors = -1
         self.tool = -1
 
-    def update(self):
-        self.motors = Is.can_device(0x2) 
-        self.face = Is.can_device(0x3) 
-        self.sensors = Is.can_device(0x4)
-        self.tool = Is.can_device(0x7)
+    @staticmethod
+    def is_device_connected(device_id: int, device_log : Dict[int,datetime]):
+        last_dev_upd = device_log.get(device_id)
+        if last_dev_upd and (datetime.now().timestamp() - last_dev_upd.timestamp() 
+                             < DEFAULT_CAN_PERIOD_SEC):
+            return Status.ACTIVE
+        return Status.INACTIVE
+
+    def update(self, device_log : Dict[int,datetime]):
+        
+        self.motors = self.is_device_connected(0x2, device_log) 
+        self.face = self.is_device_connected(0x3, device_log) 
+        self.sensors = self.is_device_connected(0x4, device_log)
+        self.tool = self.is_device_connected(0x7, device_log)

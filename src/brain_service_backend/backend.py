@@ -15,13 +15,13 @@ import errno
 
 from brain_pycore.thread import StoppableThread
 from brain_pycore.logging import new_logger
-from brain_pycore.can import canbus
 
 from brain_service_backend.dev_status import DevStatus
 from brain_service_backend.picfg import PiCfg
 from brain_service_common.is_ import Is
 from brain_service_common.constants import DEFAULT_BACKEND_PORT, DEFAULT_BACKEND_HOST
 from .os_status import OsStatus
+from ._can import CanBus
 import socket
 
 
@@ -36,11 +36,12 @@ class ZakharServiceBackend:
         self.thread_main = None  # type: StoppableThread | None
         self.thread_cfg_monitor = None  # type: StoppableThread | None
         self.thread_connection = None  # type: StoppableThread | None
-        self.thread_can_listener = None  # type: StoppableThread | None
+        
+        self.can_service = CanBus()
         
         self.connection_conn = None  # type: socket.socket | None
         self.connection_addr = None
-        canbus.start()
+        
         self.start(update_period_ms)
 
     def __del__(self):
@@ -111,7 +112,7 @@ class ZakharServiceBackend:
     def _main_once(self):
         self._update_errors_and_warns()
         self.status['os'].update()
-        self.status['dev'].update()
+        self.status['dev'].update(self.can_service._device_log)
         self.log.debug(f"Server status: {self._get_full_status_dict()}")
         self._send_data()
         sleep(self.update_period_ms / 1000)
@@ -135,6 +136,7 @@ class ZakharServiceBackend:
         self.update_period_ms = update_period_ms
         self.thread_main = StoppableThread(target=self.main_target)
         self.thread_main.start()
+        self.can_service.start()
         if self.config_monitor:
             self.thread_cfg_monitor = StoppableThread(target=self.cfg_monitor_target)
             self.thread_cfg_monitor.start()

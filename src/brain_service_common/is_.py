@@ -17,7 +17,6 @@ from datetime import datetime
 if psutil.LINUX:
     import pwd
 
-from brain_pycore.can import canbus
 from brain_pycore.logging import log
 
 from brain_service_common.internal import is_zakhar_environment
@@ -59,25 +58,6 @@ class Is:
     @staticmethod
     def zakhar():
         return is_zakhar_environment()
-
-    @staticmethod
-    @zakhar_only_bool
-    def can_device(device_id: int=0):
-        # Status check
-        ready = True
-        if not Is.can_driver_installed():
-            log.warn("Linux canbus driver is not installed")
-            ready = False
-        if canbus.is_stopped:
-            log.warn("brain_pycore canbus Listener is not started!")
-            ready = False
-        if not ready:
-            return Status.UNKNOWN
-        # Check the last device appearence
-        last_dev_upd = canbus.get_last_device_log_time(device_id)
-        if last_dev_upd and (datetime.now().timestamp() - last_dev_upd.timestamp() < DEFAULT_CAN_PERIOD_SEC):
-            return Status.ACTIVE
-        return Status.INACTIVE
 
     @staticmethod
     @zakhar_only_bool
