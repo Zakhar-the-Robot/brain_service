@@ -12,5 +12,6 @@ from brain_service_frontend import ZakharServiceFrontend
 if __name__ == "__main__":
     log.info("Frontend Service is starting...")
     front = ZakharServiceFrontend(log_level=DEBUG)
+    front.start()
     while 1:
         sleep(60)

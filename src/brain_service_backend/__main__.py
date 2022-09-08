@@ -11,6 +11,7 @@ from brain_service_backend import ZakharServiceBackend
 
 if __name__ == "__main__":
     log.info("Backend Service is starting...")
-    backend = ZakharServiceBackend(update_period_ms=2000, no_connection=False, log_level=DEBUG)
+    backend = ZakharServiceBackend(no_connection=False, log_level=DEBUG)
+    backend.start()
     while 1:
         sleep(60)  # MAGIC: pass here does not allow CANbus to start

@@ -26,7 +26,6 @@ from .decorators import zakhar_only_bool
 
 # TODO:make all methods properties 
 class Is:
-    
 
     @staticmethod
     def service_active(name: str) -> bool:

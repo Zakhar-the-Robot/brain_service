@@ -18,60 +18,30 @@ import time
 
 from brain_pycore.thread import StoppableThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
+from brain_pycore.zmq import (ZmqPublisherThread, ZmqSubscriberThread, ZmqServerThread, ZmqClientThread)
 
 from brain_service_common.common_types import Status
 from brain_service_common.constants import DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT
+
 from .display import Display
 
 
 class ZakharServiceFrontend:
     ERROR_SYMBOL = "e"
     WARNING_SYMBOL = "w"
+    STATUS_SERVICE_PORT = 5557
+    STATUS_SERVICE_TOPIC = "status"
 
     def __init__(self, log_level=LOG_LEVEL.INFO) -> None:
         self.log = new_logger("Front", log_level=log_level)
-        self.thread_main = None  # type: Union[StoppableThread, None]
-        self.thread_reader = None  # type: Union[StoppableThread, None]
+        self.thread_display = None  # type: Union[StoppableThread, None]
+        self.thread_reader = None  # type: Union[ZmqPublisherThread, None]
         self.display = Display(IS_WINDOWS)
         self.markers = {"err": "", "warn": ""}
         self.data = {}
-        self.socket = None
-        self.start()
 
     def __del__(self):
         self.stop()
-
-    def _connect(self):
-        self.log.info("Connecting ...")
-
-        self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.socket.settimeout(1)
-        self.socket.connect((DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT))
-        self.log.info("Connect!")
-
-    def _receive_backend_data(self):
-        if self.socket:
-            self.log.debug(f"Receiving...")
-            new_data_raw = self.socket.recv(1024).decode()
-            new_data = ast.literal_eval(new_data_raw)
-            self.data = new_data
-            self.log.debug(f"{self.data}")
-
-    def _reader_main(self):
-        while True:
-            try:
-                self._connect()
-                break
-            except ConnectionRefusedError:
-                t = 2
-                self.log.warn(f"Connection refused! Wait for {t} sec and retry...")
-                time.sleep(t)
-        while True:
-            try:
-                self._receive_backend_data()
-            except Exception as e:
-                # Print any error
-                self.log.error(str(e))
 
     def _get_markers_str(self) -> str:
         s = ""
@@ -82,7 +52,7 @@ class ZakharServiceFrontend:
         return s
 
 
-    def _show_errors_and_warns(self):
+    def _display_errors_and_warns(self):
         if self.data.get("err") and self.data["err"].keys():
             self.markers["err"] = self.ERROR_SYMBOL
             for err, msg in self.data["err"].items():
@@ -97,7 +67,7 @@ class ZakharServiceFrontend:
         else:
             self.markers["warn"] = ""
 
-    def _show_os_status(self):
+    def _display_os_status(self):
         os = self.data.get("os")
         if os:
             # self.display.show_sl(f"{self._get_markers_str()} Time:", os.get("time"), .5)
@@ -105,7 +75,7 @@ class ZakharServiceFrontend:
                                  f"Net: {os.get('wifi_net')}", 1)
 
 
-    def _show_devices(self):
+    def _display_devices(self):
         def _get_dev_str(devs) -> str:
             d_str = ""
             if devs and devs.keys():
@@ -124,32 +94,40 @@ class ZakharServiceFrontend:
         dev = self.data.get("dev")
         if dev:
             self.display.show_mm(f"{self._get_markers_str()}Devices:",
-                                 _get_dev_str(self.data["dev"]), 1)
+                                 _get_dev_str(self.data["dev"]), 2)
 
-
-    def _main_intro(self):
+    def _display_intro(self):
         self.display.show_l("Hello!", 1)
         self.display.show_l("I am Zakhar!", 1)
 
-    def _main_once(self):
-        self._show_errors_and_warns()
-        self._show_os_status()
-        self._show_devices()
+    def _display_all_once(self):
+        self._display_errors_and_warns()
+        self._display_os_status()
+        self._display_devices()
 
-    def main(self):
-        self._main_intro()
+    def display_all(self):
+        self._display_intro()
         while True:
-            self._main_once()
+            self._display_all_once()
+
+
+    def _callback_sub(self, msg):
+        new_data = ast.literal_eval(msg)
+        self.data = new_data
+        self.log.debug(f"{self.data}")
+        
 
     def start(self):
-        self.thread_reader = StoppableThread(target=self._reader_main)
-        self.thread_main = StoppableThread(target=self.main)
-        self.thread_main.start()
+        self.thread_reader = ZmqSubscriberThread(self.STATUS_SERVICE_PORT, self.STATUS_SERVICE_TOPIC, 
+                                                 callback = self._callback_sub,
+                                                 buffer_size=1)
+        self.thread_display = StoppableThread(target=self.display_all)
+        self.thread_display.start()
         self.thread_reader.start()
 
     def stop(self):
         self.log.info("Terminating...")
         if self.display:
             self.display.show_l("Turn off", 1)
-        if self.thread_main:
-            self.thread_main.stop()
+        if self.thread_display:
+            self.thread_display.stop()
