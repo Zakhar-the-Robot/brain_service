@@ -81,7 +81,7 @@ class StatusServer:
                                               publish_callback=self._callback,
                                               thread_name="StatusServer thread",
                                               publishing_freq_hz=2)
-            self._thread.start(log_level=LOG_LEVEL.INFO)
+            self._thread.start(log_level=LOG_LEVEL.WARNING)
 
     def stop(self):
         self._thread.stop()

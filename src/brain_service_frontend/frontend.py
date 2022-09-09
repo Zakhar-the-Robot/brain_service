@@ -112,7 +112,8 @@ class ZakharServiceFrontend:
 
 
     def _callback_sub(self, msg):
-        new_data = ast.literal_eval(msg)
+        # TODO: use json instead?
+        new_data = ast.literal_eval(msg)  # convert input string to python code
         self.data = new_data
         self.log.debug(f"{self.data}")
         

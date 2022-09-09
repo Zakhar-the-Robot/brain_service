@@ -157,9 +157,6 @@
                 "program": "${workspaceFolder}/src/brain_service_backend",
                 "console": "integratedTerminal",
                 "cwd": "${fileDirname}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
-                },
                 "justMyCode": false,
                 "linux": {
                     "sudo": true,
@@ -172,9 +169,6 @@
                 "program": "${workspaceFolder}/src/brain_service_frontend",
                 "console": "integratedTerminal",
                 "cwd": "${fileDirname}",
-                "env": {
-                    "PYTHONPATH": "${workspaceFolder}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
-                },
                 "justMyCode": false,
                 "linux": {
                     "sudo": true,
