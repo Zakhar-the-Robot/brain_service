@@ -5,6 +5,12 @@
         }
     ],
     "settings": {
+        "python.linting.enabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.linting.flake8Args": ["--config=.flake8"],
+        "python.formatting.provider": "autopep8",
+        "python.formatting.autopep8Args": [ "--global-config=.flake8"],        
+
         // pylance doesn't understand path with ${workspaceFolder}
         "python.analysis.extraPaths": [
             "${workspaceFolder}/src",

@@ -1,4 +1,5 @@
-[] Add formatters and package config
-[] Format all
+[x] Add formatters and package config
+[x] Format all
 [] Document
+[] Check all TODO in the code
 [] remove this file

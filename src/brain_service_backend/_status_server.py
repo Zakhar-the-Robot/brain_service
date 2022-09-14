@@ -9,9 +9,9 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
-from datetime import datetime
-from typing import Dict, List, Union
-from brain_pycore.zmq import (ZmqPublisherThread, ZmqSubscriberThread, ZmqServerThread, ZmqClientThread)
+
+from typing import Union
+from brain_pycore.zmq import  ZmqPublisherThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
 from brain_service_backend.dev_status import DevStatus
 from brain_service_backend.os_status import OsStatus
@@ -19,18 +19,18 @@ from brain_service_common.is_ import Is
 
 
 class StatusServer:
-    STATUS_SERVICE_PORT = 5557
-    STATUS_SERVICE_TOPIC = "status"
+    STATUS_SERVICE_PORT = 5557    # TODO move to common?
+    STATUS_SERVICE_TOPIC = "status"    # TODO move to common?
 
     def __init__(self, can_dev_log=None):
         self._can_device_log = can_dev_log
         self._log = new_logger(name="StatusServer")
         self._thread = None  # type: Union[ZmqPublisherThread, None]
 
-        self.status = {"os": OsStatus(), 
-                       "dev": DevStatus(), 
-                       "service": {}, 
-                       "err": {}, 
+        self.status = {"os": OsStatus(),
+                       "dev": DevStatus(),
+                       "service": {},
+                       "err": {},
                        "warn": {}}
 
     def _get_full_status_dict(self):
@@ -70,7 +70,6 @@ class StatusServer:
         to_send = self._get_full_status_dict()
         self._log.debug(f"Server status: {to_send}")
         return to_send
-        
 
     def start(self):
         if self._thread and self._thread.is_alive:

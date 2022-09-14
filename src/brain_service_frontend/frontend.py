@@ -3,25 +3,23 @@
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
 #
-# This file is licensed under the terms of the MIT license.  
+# This file is licensed under the terms of the MIT license.
 # For a copy, see: https://opensource.org/licenses/MIT
 #
 # site:    https://agramakov.me
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
+
 from psutil import WINDOWS as IS_WINDOWS
 from typing import Union
 import ast
-import socket
-import time
 
 from brain_pycore.thread import StoppableThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
-from brain_pycore.zmq import (ZmqPublisherThread, ZmqSubscriberThread, ZmqServerThread, ZmqClientThread)
+from brain_pycore.zmq import ZmqPublisherThread, ZmqSubscriberThread
 
 from brain_service_common.common_types import Status
-from brain_service_common.constants import DEFAULT_BACKEND_HOST, DEFAULT_BACKEND_PORT
 
 from .display import Display
 
@@ -29,8 +27,8 @@ from .display import Display
 class ZakharServiceFrontend:
     ERROR_SYMBOL = "e"
     WARNING_SYMBOL = "w"
-    STATUS_SERVICE_PORT = 5557
-    STATUS_SERVICE_TOPIC = "status"
+    STATUS_SERVICE_PORT = 5557  # TODO move to common?
+    STATUS_SERVICE_TOPIC = "status"  # TODO move to common?
 
     def __init__(self, log_level=LOG_LEVEL.INFO) -> None:
         self.log = new_logger("Front", log_level=log_level)
@@ -50,7 +48,6 @@ class ZakharServiceFrontend:
         if s:
             s = s + " | "
         return s
-
 
     def _display_errors_and_warns(self):
         if self.data.get("err") and self.data["err"].keys():
@@ -73,7 +70,6 @@ class ZakharServiceFrontend:
             # self.display.show_sl(f"{self._get_markers_str()} Time:", os.get("time"), .5)
             self.display.show_mm(f"{self._get_markers_str()}IP: {os.get('ip')}",
                                  f"Net: {os.get('wifi_net')}", 1)
-
 
     def _display_devices(self):
         def _get_dev_str(devs) -> str:
@@ -110,17 +106,16 @@ class ZakharServiceFrontend:
         while True:
             self._display_all_once()
 
-
     def _callback_sub(self, msg):
         # TODO: use json instead?
         new_data = ast.literal_eval(msg)  # convert input string to python code
         self.data = new_data
         self.log.debug(f"{self.data}")
-        
 
     def start(self):
-        self.thread_reader = ZmqSubscriberThread(self.STATUS_SERVICE_PORT, self.STATUS_SERVICE_TOPIC, 
-                                                 callback = self._callback_sub)
+        self.thread_reader = ZmqSubscriberThread(self.STATUS_SERVICE_PORT,
+                                                 self.STATUS_SERVICE_TOPIC,
+                                                 callback=self._callback_sub)
         self.thread_display = StoppableThread(target=self.display_all)
         self.thread_display.start()
         self.thread_reader.start()

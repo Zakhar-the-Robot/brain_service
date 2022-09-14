@@ -2,7 +2,7 @@
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
 #
-# This file is licensed under the terms of the MIT license.  
+# This file is licensed under the terms of the MIT license.
 # For a copy, see: https://opensource.org/licenses/MIT
 #
 # site:    https://agramakov.me
@@ -14,7 +14,7 @@ from time import sleep
 import errno
 
 from brain_pycore.thread import StoppableThread
-from brain_pycore.logging import new_logger
+from brain_pycore.logging import new_logger, LOG_LEVEL
 
 from brain_service_backend.dev_status import DevStatus
 from brain_service_backend.picfg import PiCfg
@@ -27,17 +27,21 @@ import socket
 
 
 class ZakharServiceBackend:
-    def __init__(self, no_connection=False, config_monitor=False, log_level=INFO) -> None:
+    def __init__(self,
+                 no_connection=False,
+                 config_monitor=False,
+                 log_level=LOG_LEVEL.INFO) -> None:
         self.log = new_logger("Back", log_level=log_level)
         self.no_connection = no_connection
         self.config_monitor = config_monitor
-        self.status = {"os": OsStatus(), "dev": DevStatus(), "service": {}, "err": {}, "warn": {}}
-        
+        self.status = {"os": OsStatus(), "dev": DevStatus(),
+                       "service": {}, "err": {}, "warn": {}}
+
         self.thread_cfg_monitor = None  # type: StoppableThread | None
-        
+
         self.can_server = CanServer()
         self.status_server = StatusServer(self.can_server.device_log)
-        
+
     def __del__(self):
         self.stop()
 

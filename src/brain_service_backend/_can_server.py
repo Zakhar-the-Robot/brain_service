@@ -9,19 +9,20 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
+
 import ast
 from datetime import datetime
 from typing import Dict, List, Union
-from brain_pycore.zmq import (ZmqPublisherThread, ZmqSubscriberThread, ZmqServerThread, ZmqClientThread)
+from brain_pycore.zmq import ZmqPublisherThread, ZmqServerThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
 import can
 
 
 class CanServer:
-    CANBUS_IN_PORT = 5556
-    CANBUS_OUT_PORT = 5566
-    CANBUS_SERVICE_MSG_RCV_TOPIC = "can_rcv"
-    
+    CANBUS_IN_PORT = 5556    # TODO move to common?
+    CANBUS_OUT_PORT = 5566    # TODO move to common?
+    CANBUS_SERVICE_MSG_RCV_TOPIC = "can_rcv"    # TODO move to common?
+
     def __init__(self):
         self._log = new_logger(name="CanServer")
         self._thread_in_msg_publisher = None  # type: Union[ZmqPublisherThread, None]
@@ -49,14 +50,14 @@ class CanServer:
             return str(e)
         if not isinstance(msg, dict):
             return "Wrong msg format!"
-            
+
         id = msg["id"]
         data = msg["data"]
-        
+
         # ID validation
         if id < 0 or id > 2047:
             return f"ID value is out of 11-bit range ({id})"
-        
+
         # Data validation
         if not isinstance(data, list):
             return f"Wrong data type! Data type is {type(data)}"
@@ -65,7 +66,7 @@ class CanServer:
         for d in data:
             if d < 0 or d > 255 or not isinstance(d, int):
                 return f"Data value is out of uint8 range ({d})"
-                
+
         try:
             self.send(id, data)
             result = "ok"
@@ -85,10 +86,10 @@ class CanServer:
         self._dev_can = can.interface.Bus(channel='can0', bustype='socketcan')
         if self.is_stopped:
             self._thread_in_msg_publisher = ZmqPublisherThread(port=self.CANBUS_IN_PORT,
-                                                            topic=self.CANBUS_SERVICE_MSG_RCV_TOPIC,
-                                                            publish_callback=self._callback_publisher,
-                                                            thread_name="CanServer_in",
-                                                            publishing_freq_hz=0)
+                                                               topic=self.CANBUS_SERVICE_MSG_RCV_TOPIC,
+                                                               publish_callback=self._callback_publisher,
+                                                               thread_name="CanServer_in",
+                                                               publishing_freq_hz=0)
             self._thread_in_msg_publisher.start(log_level=LOG_LEVEL.WARNING)
             self._thread_out_msg_server = ZmqServerThread(port=self.CANBUS_OUT_PORT,
                                                           callback=self._callback_out_server,

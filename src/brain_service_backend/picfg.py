@@ -1,17 +1,18 @@
-#!/usr/bin/env python3
 # *************************************************************************
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
 #
-# This file is licensed under the terms of the MIT license.  
+# This file is licensed under the terms of the MIT license.
 # For a copy, see: https://opensource.org/licenses/MIT
 #
 # site:    https://agramakov.me
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
+
 import os
-from .files import Files, PATH_RPI_CMDLINE, PATH_RPI_CONFIG, PATH_ZK_CMDLINE, PATH_ZK_CONFIG
+from .files import (Files, PATH_RPI_CMDLINE, PATH_RPI_CONFIG,
+                    PATH_ZK_CMDLINE, PATH_ZK_CONFIG)
 
 
 class PiCfg():
@@ -40,7 +41,7 @@ class PiCfg():
     @staticmethod
     def set_hostname():
         pass
-    
+
     @staticmethod
     def init_zakhar_dir():
-       pass
+        pass

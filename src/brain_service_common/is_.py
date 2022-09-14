@@ -24,7 +24,9 @@ from brain_service_common.constants import DEFAULT_CAN_PERIOD_SEC
 from .common_types import Status
 from .decorators import zakhar_only_bool
 
-# TODO:make all methods properties 
+# TODO:make all methods properties
+
+
 class Is:
 
     @staticmethod
