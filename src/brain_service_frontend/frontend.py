@@ -120,8 +120,7 @@ class ZakharServiceFrontend:
 
     def start(self):
         self.thread_reader = ZmqSubscriberThread(self.STATUS_SERVICE_PORT, self.STATUS_SERVICE_TOPIC, 
-                                                 callback = self._callback_sub,
-                                                 buffer_size=1)
+                                                 callback = self._callback_sub)
         self.thread_display = StoppableThread(target=self.display_all)
         self.thread_display.start()
         self.thread_reader.start()
