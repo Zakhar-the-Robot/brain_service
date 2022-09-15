@@ -11,11 +11,12 @@
 #
 # *************************************************************************
 
-from brain_service_backend import ZakharServiceBackend
-from brain_pycore.logging import log, LOG_LEVEL
 from time import sleep
 import sys
+
 sys.path.append("/zakhar/python_packages")
+from brain_pycore.logging import log, LOG_LEVEL
+from brain_service_backend import ZakharServiceBackend
 
 if __name__ == "__main__":
     log.info("Backend Service is starting...")

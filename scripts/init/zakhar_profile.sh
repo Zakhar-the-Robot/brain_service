@@ -38,12 +38,18 @@ zakhar_service_start_backend(){
 zakhar_service_stop_backend(){
     sudo systemctl stop brain_backend.service
 }
+zakhar_service_status_backend(){
+    sudo systemctl status brain_backend.service
+}
 
 zakhar_service_start_frontend(){
     sudo systemctl start brain_frontend.service
 }
 zakhar_service_stop_frontend(){
     sudo systemctl stop brain_frontend.service
+}
+zakhar_service_status_frontend(){
+    sudo systemctl status brain_frontend.service
 }
 
 zakhar_service_start_canbus(){
@@ -52,5 +58,17 @@ zakhar_service_start_canbus(){
 zakhar_service_stop_canbus(){
     sudo systemctl stop canbus.service
 }
+zakhar_service_status_canbus(){
+    sudo systemctl status canbus.service
+}
 
 export -f zakhar_service_status_all
+
+export -f zakhar_service_start_backend
+export -f zakhar_service_stop_backend
+
+export -f zakhar_service_start_frontend
+export -f zakhar_service_stop_frontend
+
+export -f zakhar_service_start_canbus
+export -f zakhar_service_stop_canbus
