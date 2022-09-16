@@ -9,7 +9,7 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-log "Uninstall brain_backend.service"
+log "Uninstall brain.service"
 $SCRIPT_ROOT/services/brain_backend_uninstall.sh
 
 log "Uninstall brain_service_display.service"

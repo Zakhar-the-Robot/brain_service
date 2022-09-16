@@ -16,10 +16,10 @@ import sys
 
 sys.path.append("/zakhar/python_packages")
 from brain_pycore.logging import log, LOG_LEVEL
-from brain_service_backend import ZakharService
+from . import ZakharService
 
 if __name__ == "__main__":
-    log.info("Backend Service is starting...")
+    log.info("Brain Service is starting...")
     backend = ZakharService(no_connection=False, 
                             log_level=LOG_LEVEL.DEBUG)
     backend.start()

@@ -13,7 +13,7 @@ import socket
 from datetime import datetime
 import subprocess
 
-from brain_service_common.decorators import zakhar_only_str
+from .__decorators import zakhar_only_str
 
 
 class Get:

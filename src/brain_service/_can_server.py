@@ -11,24 +11,26 @@
 # *************************************************************************
 
 import ast
+import can
 from datetime import datetime
 from typing import Dict, List, Union
 from brain_pycore.zmq import ZmqPublisherThread, ZmqServerThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
-import can
-
 
 class CanServer:
-    CANBUS_IN_PORT = 5556    # TODO move to common?
-    CANBUS_OUT_PORT = 5566    # TODO move to common?
-    CANBUS_SERVICE_MSG_RCV_TOPIC = "can_rcv"    # TODO move to common?
 
-    def __init__(self, log_level=LOG_LEVEL.INFO):
+    def __init__(self, out_msg_port:int, 
+                       in_msg_port:int, 
+                       in_msg_topic:str, 
+                       log_level=LOG_LEVEL.INFO):
         self._log = new_logger(name="CanServer", log_level=log_level)
         self._thread_in_msg_publisher = None  # type: Union[ZmqPublisherThread, None]
         self._thread_out_msg_server = None  # type: Union[ZmqServerThread, None]
         self._started = False
         self._dev_can = None
+        self._canbus_out_msg_port = out_msg_port
+        self._canbus_in_msg_port = in_msg_port
+        self._canbus_in_msg_topic = in_msg_topic
         self.device_log = {}  # type: Dict[int,datetime]
 
     def _callback_publisher(self):
@@ -85,13 +87,13 @@ class CanServer:
     def start(self):
         self._dev_can = can.interface.Bus(channel='can0', bustype='socketcan')
         if self.is_stopped:
-            self._thread_in_msg_publisher = ZmqPublisherThread(port=self.CANBUS_IN_PORT,
-                                                               topic=self.CANBUS_SERVICE_MSG_RCV_TOPIC,
+            self._thread_in_msg_publisher = ZmqPublisherThread(port=self._canbus_in_msg_port,
+                                                               topic=self._canbus_in_msg_topic,
                                                                publish_callback=self._callback_publisher,
                                                                thread_name="CanServer_in",
                                                                publishing_freq_hz=0)
             self._thread_in_msg_publisher.start(log_level=LOG_LEVEL.WARNING)
-            self._thread_out_msg_server = ZmqServerThread(port=self.CANBUS_OUT_PORT,
+            self._thread_out_msg_server = ZmqServerThread(port=self._canbus_out_msg_port,
                                                           callback=self._callback_out_server,
                                                           thread_name="CanServer_out")
             self._thread_out_msg_server.start(log_level=LOG_LEVEL.INFO)

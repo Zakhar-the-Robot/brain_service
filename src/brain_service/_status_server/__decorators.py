@@ -10,9 +10,8 @@
 #
 # *************************************************************************
 
-from brain_service_common.common_types import Status
-from brain_service_common.internal import is_zakhar_environment
-
+from .__is_zakhar_environment import is_zakhar_environment
+from .constants import STATUS_NA
 
 def zakhar_only_bool(func):
     def d(*args, **kwargs):
@@ -44,7 +43,7 @@ def zakhar_only_str(func):
 def zakhar_only_status(func):
     def d(*args, **kwargs):
         if not is_zakhar_environment():
-            return Status.NA
+            return STATUS_NA
         return func(*args, **kwargs)
 
     return d

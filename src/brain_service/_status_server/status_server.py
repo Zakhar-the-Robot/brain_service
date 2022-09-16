@@ -13,16 +13,16 @@
 from typing import Union
 from brain_pycore.zmq import ZmqPublisherThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
-from brain_service_backend.dev_status import DevStatus
-from brain_service_backend.os_status import OsStatus
-from brain_service_common.is_ import Is
+from .dev_status import DevStatus
+from .os_status import OsStatus
 
 
 class StatusServer:
-    STATUS_SERVICE_PORT = 5557    # TODO move to common?
-    STATUS_SERVICE_TOPIC = "status"    # TODO move to common?
 
-    def __init__(self, can_dev_log=None, log_level=LOG_LEVEL.INFO):
+    def __init__(self, port: int, topic: str,
+                 can_dev_log=None, log_level=LOG_LEVEL.INFO):
+        self._port = port
+        self._topic = topic
         self._can_device_log = can_dev_log
         self._log = new_logger(name="StatusServer", log_level=log_level)
         self._thread = None  # type: Union[ZmqPublisherThread, None]
@@ -61,8 +61,8 @@ class StatusServer:
         if self._thread and self._thread.is_alive:
             self._log.warning("Already started")
         else:
-            self._thread = ZmqPublisherThread(port=self.STATUS_SERVICE_PORT,
-                                              topic=self.STATUS_SERVICE_TOPIC,
+            self._thread = ZmqPublisherThread(port=self._port,
+                                              topic=self._topic,
                                               publish_callback=self._callback,
                                               thread_name="StatusServer thread",
                                               publishing_freq_hz=2)

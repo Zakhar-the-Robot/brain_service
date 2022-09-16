@@ -10,7 +10,12 @@
 #
 # *************************************************************************
 
-from . import constants
-from .common_types import Status
-from .get import Get
-from .is_ import Is
+DEFAULT_CAN_PERIOD_SEC = 3
+DEFAULT_BACKEND_PORT = 60001
+DEFAULT_BACKEND_HOST = '127.0.0.1'
+
+
+STATUS_UNKNOWN = -1
+STATUS_INACTIVE = 0
+STATUS_ACTIVE = 1
+STATUS_NA = 2

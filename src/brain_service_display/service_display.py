@@ -18,14 +18,15 @@ import ast
 from brain_pycore.thread import StoppableThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
 from brain_pycore.zmq import ZmqPublisherThread, ZmqSubscriberThread
-from brain_service_common.common_types import Status
-
 from .display import Display
 
+class Status:
+    UNKNOWN = -1
+    INACTIVE = 0
+    ACTIVE = 1
+    NA = 2
 
 class ServiceDisplay:
-    ERROR_SYMBOL = "e"
-    WARNING_SYMBOL = "w"
     STATUS_SERVICE_PORT = 5557
     STATUS_SERVICE_TOPIC = "status"
 

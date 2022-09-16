@@ -8,9 +8,9 @@ SCRIPT_ROOT=$(dirname $(readlink -f "$0"))
 SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
-log "Install brain_backend.service"
+log "Install brain.service"
 
-SERVICE_FILE_NAME="brain_backend.service"
+SERVICE_FILE_NAME="brain.service"
 SERVICE_SRC_FILE_PATH="$SCRIPT_ROOT/$SERVICE_FILE_NAME"
 SERVICE_DSC_FILE_PATH="/lib/systemd/system/$SERVICE_FILE_NAME"
 

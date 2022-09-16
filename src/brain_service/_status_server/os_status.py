@@ -9,8 +9,10 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
-from brain_service_common import Get, Is, Status
-from ._status import StatusClass
+from .get import Get
+from .is_ import Is
+from .constants import STATUS_UNKNOWN
+from .__status import StatusClass
 
 
 class OsStatus(StatusClass):
@@ -19,9 +21,9 @@ class OsStatus(StatusClass):
         self.ip = ""
         self.wifi_net = ""
         self.is_mind_user = False
-        self.can_up = Status.UNKNOWN
-        self.ssh_up = Status.UNKNOWN
-        self.ros_up = Status.UNKNOWN
+        self.can_up = STATUS_UNKNOWN
+        self.ssh_up = STATUS_UNKNOWN
+        self.ros_up = STATUS_UNKNOWN
         self.time = None
 
     def update(self) -> None:

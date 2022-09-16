@@ -13,16 +13,11 @@ import os
 import subprocess
 import psutil
 import ifcfg
-from datetime import datetime
 if psutil.LINUX:
     import pwd
 
-from brain_pycore.logging import log
-
-from brain_service_common.internal import is_zakhar_environment
-from brain_service_common.constants import DEFAULT_CAN_PERIOD_SEC
-from .common_types import Status
-from .decorators import zakhar_only_bool
+from .__is_zakhar_environment import is_zakhar_environment
+from .__decorators import zakhar_only_bool
 
 # TODO:make all methods properties
 

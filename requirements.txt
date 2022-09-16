@@ -1,2 +1,2 @@
--r ./src/brain_service_backend/requirements.txt
--r ./src/brain_service_frontend/requirements.txt
+-r ./src/brain_service/requirements.txt
+-r ./src/brain_service_display/requirements.txt

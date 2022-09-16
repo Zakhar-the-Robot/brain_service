@@ -161,11 +161,11 @@
                 "name": "Backend",
                 "type": "python",
                 "request": "launch",
-                "module": "brain_service_backend",
+                "module": "brain_service",
                 "console": "integratedTerminal",
                 "cwd": "${fileDirname}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder:brain_service}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
+                    "PYTHONPATH": "${workspaceFolder}/src${command:extension.commandvariable.envListSep}${workspaceFolder}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
                 },
                 "justMyCode": false,
                 "linux": {
@@ -180,7 +180,7 @@
                 "console": "integratedTerminal",
                 "cwd": "${fileDirname}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder:brain_service}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
+                    "PYTHONPATH": "${workspaceFolder}/src${command:extension.commandvariable.envListSep}${workspaceFolder}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
                 },
                 "justMyCode": false,
                 "linux": {
@@ -195,7 +195,7 @@
                 "console": "integratedTerminal",
                 "cwd": "${fileDirname}",
                 "env": {
-                    "PYTHONPATH": "${workspaceFolder}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
+                    "PYTHONPATH": "${workspaceFolder}/src${command:extension.commandvariable.envListSep}${workspaceFolder}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
                 },
                 "justMyCode": false,
                 "linux": {
