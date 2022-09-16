@@ -13,6 +13,7 @@
 from .__is_zakhar_environment import is_zakhar_environment
 from .constants import STATUS_NA
 
+
 def zakhar_only_bool(func):
     def d(*args, **kwargs):
         if not is_zakhar_environment():

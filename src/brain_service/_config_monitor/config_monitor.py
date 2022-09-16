@@ -12,12 +12,13 @@ from brain_pycore.thread import StoppableThread
 import ifcfg
 from .picfg import PiCfg
 
+
 class ConfigMonitor:
-    
-    def __init__(self, status:dict):
+
+    def __init__(self, status: dict):
         self.status = status
         self.thread_cfg_monitor = None  # type: StoppableThread | None
-        
+
     def start(self):
         self.thread_cfg_monitor = StoppableThread(target=self.cfg_monitor_target)
         self.thread_cfg_monitor.start()

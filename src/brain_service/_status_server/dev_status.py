@@ -14,6 +14,7 @@ from typing import Dict
 from .constants import DEFAULT_CAN_PERIOD_SEC, STATUS_ACTIVE, STATUS_INACTIVE
 from .__status import StatusClass
 
+
 class DevStatus(StatusClass):
     def __init__(self):
         self.face = -1

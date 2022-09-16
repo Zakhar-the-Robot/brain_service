@@ -17,12 +17,13 @@ from typing import Dict, List, Union
 from brain_pycore.zmq import ZmqPublisherThread, ZmqServerThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
 
+
 class CanServer:
 
-    def __init__(self, out_msg_port:int, 
-                       in_msg_port:int, 
-                       in_msg_topic:str, 
-                       log_level=LOG_LEVEL.INFO):
+    def __init__(self, out_msg_port: int,
+                 in_msg_port: int,
+                 in_msg_topic: str,
+                 log_level=LOG_LEVEL.INFO):
         self._log = new_logger(name="CanServer", log_level=log_level)
         self._thread_in_msg_publisher = None  # type: Union[ZmqPublisherThread, None]
         self._thread_out_msg_server = None  # type: Union[ZmqServerThread, None]

@@ -11,6 +11,3 @@
 # *************************************************************************
 
 from .status_server import StatusServer
-from .dev_status import DevStatus
-from .is_ import Is
-from .os_status import OsStatus

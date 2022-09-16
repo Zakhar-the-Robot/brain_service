@@ -13,14 +13,14 @@ from brain_pycore.logging import new_logger, LOG_LEVEL
 
 from ._can_server import CanServer
 from ._config_monitor import ConfigMonitor
-from ._status_server import DevStatus, OsStatus, StatusServer
+from ._status_server import StatusServer
 
-CANBUS_IN_PORT = 5556    # TODO move to common?
-CANBUS_OUT_PORT = 5566    # TODO move to common?
-CANBUS_SERVICE_MSG_RCV_TOPIC = "can_rcv"    # TODO move to common?
+CANBUS_IN_PORT = 5556
+CANBUS_OUT_PORT = 5566
+CANBUS_SERVICE_MSG_RCV_TOPIC = "can_rcv"
 
-STATUS_SERVICE_PORT = 5557    # TODO move to common?
-STATUS_SERVICE_TOPIC = "status"    # TODO move to common?
+STATUS_SERVICE_PORT = 5557
+STATUS_SERVICE_TOPIC = "status"
 
 
 class ZakharService:
@@ -41,7 +41,6 @@ class ZakharService:
                                           can_dev_log=self.can_server.device_log,
                                           log_level=log_level)
         self.config_monitor = ConfigMonitor(self.status_server.status)
-        
 
     def __del__(self):
         self.stop()

@@ -11,9 +11,6 @@
 # *************************************************************************
 
 DEFAULT_CAN_PERIOD_SEC = 3
-DEFAULT_BACKEND_PORT = 60001
-DEFAULT_BACKEND_HOST = '127.0.0.1'
-
 
 STATUS_UNKNOWN = -1
 STATUS_INACTIVE = 0
