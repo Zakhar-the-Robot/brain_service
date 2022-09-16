@@ -72,30 +72,30 @@
                 ]
             },
             {
-                "label": "Backend - Install",
+                "label": "Service - Install",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
                     "bash",
-                    "${workspaceFolder}/scripts/services/brain_backend_install.sh"
+                    "${workspaceFolder}/scripts/services/brain_service_install.sh"
                 ]
             },
             {
-                "label": "Backend - Uninstall",
+                "label": "Service - Uninstall",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
                     "bash",
-                    "${workspaceFolder}/scripts/services/brain_backend_uninstall.sh"
+                    "${workspaceFolder}/scripts/services/brain_service_uninstall.sh"
                 ]
             },
             {
-                "label": "Backend - Restart",
+                "label": "Service - Restart",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
                     "bash",
-                    "${workspaceFolder}/scripts/services/brain_backend_restart.sh"
+                    "${workspaceFolder}/scripts/services/brain_service_restart.sh"
                 ]
             },
             {
@@ -158,7 +158,7 @@
     "launch": {
         "configurations": [
             {
-                "name": "Backend",
+                "name": "Service",
                 "type": "python",
                 "request": "launch",
                 "module": "brain_service",

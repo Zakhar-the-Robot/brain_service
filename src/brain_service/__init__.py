@@ -10,4 +10,4 @@
 #
 # *************************************************************************
 
-from .backend import ZakharService
+from .zakhar_service import ZakharService

@@ -22,7 +22,7 @@ log "Install service python packages"
 
 log "Install python package: brain_service..."
 rm -f "/zakhar/python_packages/brain_service"
-ln -sf "$SCRIPT_ROOT/../../src/brain_service"             "/zakhar/python_packages/brain_service"
+ln -sf "$SCRIPT_ROOT/../../src/brain_service" "/zakhar/python_packages/brain_service"
 
 log "Install python package: brain_service_display..."
 rm -f "/zakhar/python_packages/brain_service_display"

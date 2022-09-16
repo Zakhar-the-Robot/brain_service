@@ -16,7 +16,7 @@ bash $SCRIPT_ROOT/python/packages_download.sh
 bash $SCRIPT_ROOT/python/packages_install_symlinks.sh
 
 bash $SCRIPT_ROOT/services/canbus_install.sh
-bash $SCRIPT_ROOT/services/brain_backend_install.sh
+bash $SCRIPT_ROOT/services/brain_service_install.sh
 bash $SCRIPT_ROOT/services/brain_service_display_install.sh
 
 echo ""

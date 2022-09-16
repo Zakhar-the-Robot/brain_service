@@ -16,7 +16,7 @@ import sys
 
 sys.path.append("/zakhar/python_packages")
 from brain_pycore.logging import log, LOG_LEVEL
-from . import ZakharService
+from brain_service import ZakharService
 
 if __name__ == "__main__":
     log.info("Brain Service is starting...")

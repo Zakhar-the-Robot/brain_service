@@ -10,7 +10,7 @@ function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
 log "Uninstall brain.service"
-$SCRIPT_ROOT/services/brain_backend_uninstall.sh
+$SCRIPT_ROOT/services/brain_service_uninstall.sh
 
 log "Uninstall brain_service_display.service"
 $SCRIPT_ROOT/services/brain_service_display_uninstall.sh
