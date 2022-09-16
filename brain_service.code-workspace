@@ -1,11 +1,8 @@
 {
     "folders": [
+        // multiple folders confuse pylance and python completion doesn't work
         {
             "path": "."
-        },
-        {
-            "path": "/",
-            "name": "/"
         }
     ],
     "settings": {

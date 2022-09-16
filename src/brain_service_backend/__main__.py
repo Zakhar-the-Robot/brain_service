@@ -16,12 +16,12 @@ import sys
 
 sys.path.append("/zakhar/python_packages")
 from brain_pycore.logging import log, LOG_LEVEL
-from brain_service_backend import ZakharServiceBackend
+from brain_service_backend import ZakharService
 
 if __name__ == "__main__":
     log.info("Backend Service is starting...")
-    backend = ZakharServiceBackend(no_connection=False, 
-                                   log_level=LOG_LEVEL.DEBUG)
+    backend = ZakharService(no_connection=False, 
+                            log_level=LOG_LEVEL.DEBUG)
     backend.start()
     while 1:
         sleep(60)  # MAGIC: pass here does not allow CANbus to start

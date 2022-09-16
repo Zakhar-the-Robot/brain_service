@@ -26,7 +26,7 @@ from ._status_server import StatusServer
 import socket
 
 
-class ZakharServiceBackend:
+class ZakharService:
     def __init__(self,
                  no_connection=False,
                  config_monitor=False,
@@ -39,8 +39,8 @@ class ZakharServiceBackend:
 
         self.thread_cfg_monitor = None  # type: StoppableThread | None
 
-        self.can_server = CanServer()
-        self.status_server = StatusServer(self.can_server.device_log)
+        self.can_server = CanServer(log_level=log_level)
+        self.status_server = StatusServer(self.can_server.device_log, log_level=log_level)
 
     def __del__(self):
         self.stop()

@@ -23,7 +23,7 @@ from brain_service_common.common_types import Status
 from .display import Display
 
 
-class BrainServiceDisplay:
+class ServiceDisplay:
     ERROR_SYMBOL = "e"
     WARNING_SYMBOL = "w"
     STATUS_SERVICE_PORT = 5557
@@ -34,41 +34,29 @@ class BrainServiceDisplay:
         self.thread_display = None  # type: Union[StoppableThread, None]
         self.thread_reader = None  # type: Union[ZmqPublisherThread, None]
         self.display = Display(IS_WINDOWS)
-        self.markers = {"err": "", "warn": ""}
         self.data = {}
 
     def __del__(self):
         self.stop()
 
-    def _get_markers_str(self) -> str:
-        s = ""
-        for m in self.markers.values():
-            s += m
-        if s:
-            s = s + " | "
-        return s
-
-    def _display_errors_and_warns(self):
-        if self.data.get("err") and self.data["err"].keys():
-            self.markers["err"] = self.ERROR_SYMBOL
-            for err, msg in self.data["err"].items():
-                self.display.show_mm(f"{self.ERROR_SYMBOL} | Error: {err}", msg, 2)
-        else:
-            self.markers["err"] = ""
-
-        if self.data.get("warn") and self.data["warn"].keys():
-            self.markers["warn"] = self.WARNING_SYMBOL
-            for wrn, msg in self.data["warn"].items():
-                self.display.show_mm(f"{self.WARNING_SYMBOL} | Warn: {wrn}", msg, 1)
-        else:
-            self.markers["warn"] = ""
-
-    def _display_os_status(self):
+    def _display_network(self):
         os = self.data.get("os")
         if os:
-            # self.display.show_sl(f"{self._get_markers_str()} Time:", os.get("time"), .5)
-            self.display.show_mm(f"{self._get_markers_str()}IP: {os.get('ip')}",
+            self.display.show_mm(f"IP: {os.get('ip')}",
                                  f"Net: {os.get('wifi_net')}", 1)
+
+    def _display_os_status(self):
+        ssh, can, ros = " ", " ", " "
+        if self.data.get("os"):
+            if self.data["os"]["ssh_up"]:
+                ssh = "x"
+            if self.data["os"]["can_up"]:
+                can = "x"
+            if self.data["os"]["ros_up"]:
+                ros = "x"
+        self.display.show_mm(f"SSH: [{ssh}] | CAN: [{can}]",
+                             f"ROS: [{ros}]", 
+                             1)
 
     def _display_devices(self):
         def _get_dev_str(devs) -> str:
@@ -88,7 +76,7 @@ class BrainServiceDisplay:
 
         dev = self.data.get("dev")
         if dev:
-            self.display.show_mm(f"{self._get_markers_str()}Devices:",
+            self.display.show_mm(f"Devices:",
                                  _get_dev_str(self.data["dev"]), 2)
 
     def _display_intro(self):
@@ -96,7 +84,7 @@ class BrainServiceDisplay:
         self.display.show_l("I am Zakhar!", 1)
 
     def _display_all_once(self):
-        self._display_errors_and_warns()
+        self._display_network()
         self._display_os_status()
         self._display_devices()
 

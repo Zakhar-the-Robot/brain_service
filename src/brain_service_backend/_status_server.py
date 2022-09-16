@@ -11,7 +11,7 @@
 # *************************************************************************
 
 from typing import Union
-from brain_pycore.zmq import  ZmqPublisherThread
+from brain_pycore.zmq import ZmqPublisherThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
 from brain_service_backend.dev_status import DevStatus
 from brain_service_backend.os_status import OsStatus
@@ -22,16 +22,14 @@ class StatusServer:
     STATUS_SERVICE_PORT = 5557    # TODO move to common?
     STATUS_SERVICE_TOPIC = "status"    # TODO move to common?
 
-    def __init__(self, can_dev_log=None):
+    def __init__(self, can_dev_log=None, log_level=LOG_LEVEL.INFO):
         self._can_device_log = can_dev_log
-        self._log = new_logger(name="StatusServer")
+        self._log = new_logger(name="StatusServer", log_level=log_level)
         self._thread = None  # type: Union[ZmqPublisherThread, None]
 
         self.status = {"os": OsStatus(),
                        "dev": DevStatus(),
-                       "service": {},
-                       "err": {},
-                       "warn": {}}
+                       "service": {}}
 
     def _get_full_status_dict(self):
         d = {}
@@ -51,19 +49,7 @@ class StatusServer:
                 d[k] = v_dict
         return d
 
-    # TODO move error indication to frontend
-    def _update_errors_and_warns(self):
-        self.status["err"] = {}
-        self.status["warn"] = {}
-        if not Is.ros():
-            self.status["warn"]["ros"] = "ROS is down"
-        if not Is.ssh():
-            self.status["err"]["ssh"] = "SSH is down"
-        if not Is.can_driver_installed():
-            self.status["warn"]["can"] = "CAN is down"
-
     def _callback(self):
-        self._update_errors_and_warns()
         self.status['os'].update()
         if self._can_device_log:
             self.status['dev'].update(self._can_device_log)

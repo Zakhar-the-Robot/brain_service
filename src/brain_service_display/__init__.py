@@ -10,4 +10,4 @@
 #
 # *************************************************************************
 
-from .brain_service_display import BrainServiceDisplay
+from .service_display import ServiceDisplay

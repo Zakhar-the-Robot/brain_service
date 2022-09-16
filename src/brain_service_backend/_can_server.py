@@ -23,8 +23,8 @@ class CanServer:
     CANBUS_OUT_PORT = 5566    # TODO move to common?
     CANBUS_SERVICE_MSG_RCV_TOPIC = "can_rcv"    # TODO move to common?
 
-    def __init__(self):
-        self._log = new_logger(name="CanServer")
+    def __init__(self, log_level=LOG_LEVEL.INFO):
+        self._log = new_logger(name="CanServer", log_level=log_level)
         self._thread_in_msg_publisher = None  # type: Union[ZmqPublisherThread, None]
         self._thread_out_msg_server = None  # type: Union[ZmqServerThread, None]
         self._started = False
