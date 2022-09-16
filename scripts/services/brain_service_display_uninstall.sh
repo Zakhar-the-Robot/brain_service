@@ -9,7 +9,7 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-SERVICE_FILE_NAME="brain_frontend.service"
+SERVICE_FILE_NAME="brain_service_display.service"
 SERVICE_FILE_PATH="/lib/systemd/system/$SERVICE_FILE_NAME"
 
 

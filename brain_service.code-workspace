@@ -102,30 +102,30 @@
                 ]
             },
             {
-                "label": "Frontend - Install",
+                "label": "Service Display - Install",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
                     "bash",
-                    "${workspaceFolder}/scripts/services/brain_frontend_install.sh"
+                    "${workspaceFolder}/scripts/services/brain_service_display_install.sh"
                 ]
             },
             {
-                "label": "Frontend - Uninstall",
+                "label": "Service Display - Uninstall",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
                     "bash",
-                    "${workspaceFolder}/scripts/services/brain_frontend_uninstall.sh"
+                    "${workspaceFolder}/scripts/services/brain_service_display_uninstall.sh"
                 ]
             },
             {
-                "label": "Frontend - Restart",
+                "label": "Service Display - Restart",
                 "type": "shell",
                 "command": "sudo",
                 "args": [
                     "bash",
-                    "${workspaceFolder}/scripts/services/brain_frontend_restart.sh"
+                    "${workspaceFolder}/scripts/services/brain_service_display_restart.sh"
                 ]
             },
             {
@@ -164,21 +164,27 @@
                 "name": "Backend",
                 "type": "python",
                 "request": "launch",
-                "program": "${workspaceFolder}/src/brain_service_backend",
+                "module": "brain_service_backend",
                 "console": "integratedTerminal",
                 "cwd": "${fileDirname}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder:brain_service}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
+                },
                 "justMyCode": false,
                 "linux": {
                     "sudo": true,
                 },
             },
             {
-                "name": "Frontend",
+                "name": "Service Display",
                 "type": "python",
                 "request": "launch",
-                "program": "${workspaceFolder}/src/brain_service_frontend",
+                "module": "brain_service_display",
                 "console": "integratedTerminal",
                 "cwd": "${fileDirname}",
+                "env": {
+                    "PYTHONPATH": "${workspaceFolder:brain_service}/python_packages${command:extension.commandvariable.envListSep}${env:PYTHONPATH}"
+                },
                 "justMyCode": false,
                 "linux": {
                     "sudo": true,

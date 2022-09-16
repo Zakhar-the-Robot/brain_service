@@ -10,4 +10,4 @@
 #
 # *************************************************************************
 
-from .frontend import ZakharServiceFrontend
+from .brain_service_display import BrainServiceDisplay

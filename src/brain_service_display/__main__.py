@@ -4,11 +4,11 @@ import sys
 
 sys.path.append("/zakhar/python_packages")
 from brain_pycore.logging import log, LOG_LEVEL
-from brain_service_frontend import ZakharServiceFrontend
+from . import BrainServiceDisplay
 
 if __name__ == "__main__":
-    log.info("Frontend Service is starting...")
-    front = ZakharServiceFrontend(log_level=LOG_LEVEL.DEBUG)
+    log.info("Display Service is starting...")
+    front = BrainServiceDisplay(log_level=LOG_LEVEL.DEBUG)
     front.start()
     while 1:
         sleep(60)

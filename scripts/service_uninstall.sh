@@ -12,8 +12,8 @@ function log { echo "- $1 [$(basename "$0")]" ;}
 log "Uninstall brain_backend.service"
 $SCRIPT_ROOT/services/brain_backend_uninstall.sh
 
-log "Uninstall brain_frontend.service"
-$SCRIPT_ROOT/services/brain_frontend_uninstall.sh
+log "Uninstall brain_service_display.service"
+$SCRIPT_ROOT/services/brain_service_display_uninstall.sh
 
 log "Uninstall canbus.service"
 $SCRIPT_ROOT/services/canbus_uninstall.sh

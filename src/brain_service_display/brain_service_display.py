@@ -18,17 +18,16 @@ import ast
 from brain_pycore.thread import StoppableThread
 from brain_pycore.logging import new_logger, LOG_LEVEL
 from brain_pycore.zmq import ZmqPublisherThread, ZmqSubscriberThread
-
 from brain_service_common.common_types import Status
 
 from .display import Display
 
 
-class ZakharServiceFrontend:
+class BrainServiceDisplay:
     ERROR_SYMBOL = "e"
     WARNING_SYMBOL = "w"
-    STATUS_SERVICE_PORT = 5557  # TODO move to common?
-    STATUS_SERVICE_TOPIC = "status"  # TODO move to common?
+    STATUS_SERVICE_PORT = 5557
+    STATUS_SERVICE_TOPIC = "status"
 
     def __init__(self, log_level=LOG_LEVEL.INFO) -> None:
         self.log = new_logger("Front", log_level=log_level)

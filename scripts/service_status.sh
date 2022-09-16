@@ -9,8 +9,8 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-log "Status brain_frontend.service"
-systemctl status brain_frontend.service
+log "Status brain_service_display.service"
+systemctl status brain_service_display.service
 
 log "Status brain_backend.service"
 systemctl status brain_backend.service

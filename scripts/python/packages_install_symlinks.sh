@@ -28,9 +28,9 @@ log "Install python package: brain_service_backend..."
 rm -f "/zakhar/python_packages/brain_service_backend"
 ln -sf "$SCRIPT_ROOT/../../src/brain_service_backend"     "/zakhar/python_packages/brain_service_backend"
 
-log "Install python package: brain_service_frontend..."
-rm -f "/zakhar/python_packages/brain_service_frontend"
-ln -sf "$SCRIPT_ROOT/../../src/brain_service_frontend"    "/zakhar/python_packages/brain_service_frontend"
+log "Install python package: brain_service_display..."
+rm -f "/zakhar/python_packages/brain_service_display"
+ln -sf "$SCRIPT_ROOT/../../src/brain_service_display"    "/zakhar/python_packages/brain_service_display"
 
 log "Install python package: brain_service..."
 rm -f "/zakhar/python_packages/brain_service"

@@ -27,7 +27,7 @@ PYTHONPATH="$PYTHONPATH:$ZAKHAR_PYTHONPATH"
 ROS_PACKAGE_PATH="$ROS_PACKAGE_PATH:$ZAKHAR_ROS_PACKAGE_PATH"
 
 zakhar_service_status_all() {
-    sudo systemctl status brain_frontend.service
+    sudo systemctl status brain_service_display.service
     sudo systemctl status brain_backend.service
     sudo systemctl status canbus.service
 }
@@ -43,13 +43,13 @@ zakhar_service_status_backend(){
 }
 
 zakhar_service_start_frontend(){
-    sudo systemctl start brain_frontend.service
+    sudo systemctl start brain_service_display.service
 }
 zakhar_service_stop_frontend(){
-    sudo systemctl stop brain_frontend.service
+    sudo systemctl stop brain_service_display.service
 }
 zakhar_service_status_frontend(){
-    sudo systemctl status brain_frontend.service
+    sudo systemctl status brain_service_display.service
 }
 
 zakhar_service_start_canbus(){

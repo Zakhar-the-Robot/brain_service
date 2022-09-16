@@ -1,5 +1,9 @@
 [x] Add formatters and package config
 [x] Format all
+[] brain_service_frontend -> brain_service_display
+[] brain_service_backend -> brain_service
+[] remove service_common
+[] Add licenses
 [] Document
 [] Check all TODO in the code
 [] remove this file

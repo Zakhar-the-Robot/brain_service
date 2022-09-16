@@ -1,12 +1,12 @@
 [Unit]
-Description=Zakhar Frontend Linux Service
+Description=Zakhar Service Display
 After=multi-user.target
 Conflicts=getty@tty1.service
 
 [Service]
 Type=simple
 WorkingDirectory=/zakhar
-ExecStart=/usr/local/bin/python3 /zakhar/python_packages/brain_service_frontend
+ExecStart=/usr/local/bin/python3 /zakhar/python_packages/brain_service_display
 StandardInput=tty-force
 StandardOutput=syslog+console
 StandardError=syslog+console

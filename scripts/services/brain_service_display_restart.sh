@@ -9,7 +9,7 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-SERVICE_FILE_NAME="brain_frontend.service"
+SERVICE_FILE_NAME="brain_service_display.service"
 
 log "Stopping the service: $SERVICE_FILE_NAME"
 systemctl stop $SERVICE_FILE_NAME
