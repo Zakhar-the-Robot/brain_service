@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # *************************************************************************
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
@@ -10,7 +9,6 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
-
 
 class Display:
     def __init__(self, emulator=False) -> None:

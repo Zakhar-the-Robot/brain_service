@@ -10,7 +10,6 @@
 #
 # *************************************************************************
 
-
 class StatusClass(object):
     def update(self):
         raise NotImplementedError

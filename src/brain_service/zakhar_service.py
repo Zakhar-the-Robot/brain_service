@@ -9,6 +9,7 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
+
 from brain_pycore.logging import new_logger, LOG_LEVEL
 
 from ._can_server import CanServer

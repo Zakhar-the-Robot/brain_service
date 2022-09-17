@@ -6,3 +6,4 @@ Contains a service launched on booting Zakhar's system, independent of the main 
 
 The service makes system checks and print information onto an ssd1306-based 128x32 OLED display connected to /dev/i2c-1
 
+TBD (https://github.com/Zakhar-the-Robot/brain_service/issues/28)

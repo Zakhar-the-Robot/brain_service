@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # *************************************************************************
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
@@ -10,4 +9,5 @@
 # e-mail:  mail@agramakov.me
 #
 # *************************************************************************
+
 from .files import Files, PATH_RPI_CMDLINE, PATH_RPI_CONFIG, PATH_ZK_CMDLINE, PATH_ZK_CONFIG
