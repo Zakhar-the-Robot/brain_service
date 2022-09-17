@@ -21,16 +21,20 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-log "Installation of the Zakhar Brain Service..."
-echo ""
+SERVICE_FILE_NAME="brain_service_display.service"
+SERVICE_FILE_PATH="/lib/systemd/system/$SERVICE_FILE_NAME"
 
-bash $SCRIPT_ROOT/python/packages_download.sh
-bash $SCRIPT_ROOT/python/packages_install_symlinks.sh
 
-bash $SCRIPT_ROOT/services/canbus_install.sh
-bash $SCRIPT_ROOT/services/brain_service_install.sh
-bash $SCRIPT_ROOT/services/brain_service_display_install.sh
+if [ ! -f $SERVICE_FILE_PATH ]; then
+    log "$SERVICE_FILE_NAME does not exist."
+else
+    log "Disabling the service"
+    systemctl disable $SERVICE_FILE_NAME
+    log "Stopping the service: $SERVICE_FILE_NAME"
+    systemctl stop $SERVICE_FILE_NAME
+    rm $SERVICE_FILE_PATH
+    log "The service was uninstalled."
+fi
 
-echo ""
 log "[ Done ]"
 

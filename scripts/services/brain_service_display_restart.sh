@@ -21,16 +21,16 @@ SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
 
-log "Installation of the Zakhar Brain Service..."
-echo ""
+SERVICE_FILE_NAME="brain_service_display.service"
 
-bash $SCRIPT_ROOT/python/packages_download.sh
-bash $SCRIPT_ROOT/python/packages_install_symlinks.sh
+log "Stopping the service: $SERVICE_FILE_NAME"
+systemctl stop $SERVICE_FILE_NAME
 
-bash $SCRIPT_ROOT/services/canbus_install.sh
-bash $SCRIPT_ROOT/services/brain_service_install.sh
-bash $SCRIPT_ROOT/services/brain_service_display_install.sh
+log "Reload: $SERVICE_FILE_NAME"
+systemctl daemon-reload
 
-echo ""
+log "Starting the service: $SERVICE_FILE_NAME"
+systemctl start $SERVICE_FILE_NAME
+
 log "[ Done ]"
 

@@ -1,8 +1,6 @@
-# zakhar_service
+# brain_service
 
-- Part of the [Zakhar's Brain](https://github.com/an-dr/zakhar_brain)
-- Part of the [Zakhar Project](https://github.com/an-dr/zakhar)
+[![Main - Page](https://img.shields.io/badge/Project-Zakhar%20the%20Robot-yellow)](https://zakhar-the-robot.github.io/doc/ "See the Project Main Page") [![Main - Page](https://img.shields.io/badge/Sources-Zakhar%20the%20Robot-blue)](https://github.com/Zakhar-the-Robot "See Project Sources on Github")
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![View - Documentation](https://img.shields.io/badge/Documentation-brain_service-orange)](doc/_index.md "Go to the Documentation")
 
-Contains a service launched on booting Zakhar's system, independent of the main robot's program.
-
-The service makes system checks and print information onto an ssd1306-based 128x32 OLED display connected to /dev/i2c-1
+A service responsible for Zakhar's brain configuration, state reporting and hardware communication.

@@ -1,9 +1,8 @@
-#!/bin/bash
 # *************************************************************************
 #
 # Copyright (c) 2021 Andrei Gramakov. All rights reserved.
 #
-# This file is licensed under the terms of the MIT license.  
+# This file is licensed under the terms of the MIT license.
 # For a copy, see: https://opensource.org/licenses/MIT
 #
 # site:    https://agramakov.me
@@ -11,8 +10,12 @@
 #
 # *************************************************************************
 
-DIR_SHARED="/zakhar"
-DIR_PY="${DIR_SHARED}/python_packages" 
-DIR_ROS="${DIR_SHARED}/ros_packages"
-DIR_SCR="${DIR_SHARED}/scripts"
-DIR_SRV="${DIR_SHARED}/service"
+class StatusClass(object):
+    def update(self):
+        raise NotImplementedError
+
+    def __repr__(self) -> str:
+        return str(vars(self))
+
+    def __str__(self) -> str:
+        return str(vars(self))

@@ -22,5 +22,5 @@ source $SCRIPT_ROOT/dirs.sh
 
 DIR_PROFILE=/etc/profile.d
 
-ln -f $SCRIPT_ROOT/zakhar_profile.sh $DIR_SCR
-ln -f $SCRIPT_ROOT/zakhar_rc.sh $DIR_SCR
+ln -f $SCRIPT_ROOT/zakhar_profile.sh $DIR_PROFILE
+ln -f $SCRIPT_ROOT/zakhar_rc.sh $DIR_PROFILE

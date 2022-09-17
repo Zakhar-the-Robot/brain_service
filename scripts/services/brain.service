@@ -1,0 +1,17 @@
+[Unit]
+Description=Brain Linux Service
+After=multi-user.target
+After=canbus.service
+Requires=canbus.service
+Conflicts=getty@tty1.service
+
+[Service]
+Type=simple
+WorkingDirectory=/zakhar
+ExecStart=/usr/local/bin/python3 /zakhar/python_packages/brain_service
+StandardInput=tty-force
+StandardOutput=syslog+console
+StandardError=syslog+console
+
+[Install]
+WantedBy=multi-user.target

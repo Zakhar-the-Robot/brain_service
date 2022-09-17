@@ -20,17 +20,33 @@ SCRIPT_ROOT=$(dirname $(readlink -f "$0"))
 SCRIPT_NAME=$(basename "$0")
 function log { echo "- $1 [$(basename "$0")]" ;}
 # ----------------------------------------------------------------------------
+log "Install brain.service"
 
-log "Installation of the Zakhar Brain Service..."
-echo ""
+SERVICE_FILE_NAME="brain.service"
+SERVICE_SRC_FILE_PATH="$SCRIPT_ROOT/$SERVICE_FILE_NAME"
+SERVICE_DSC_FILE_PATH="/lib/systemd/system/$SERVICE_FILE_NAME"
 
-bash $SCRIPT_ROOT/python/packages_download.sh
-bash $SCRIPT_ROOT/python/packages_install_symlinks.sh
 
-bash $SCRIPT_ROOT/services/canbus_install.sh
-bash $SCRIPT_ROOT/services/brain_service_install.sh
-bash $SCRIPT_ROOT/services/brain_service_display_install.sh
+if [ ! -f $SERVICE_DSC_FILE_PATH ]; then
+    log "Creating a $SERVICE_FILE_NAME file"
+else
+    log "$SERVICE_FILE_NAME exists! The service will be updated"
+    log "Stopping the service: $SERVICE_FILE_NAME"
+    systemctl stop $SERVICE_FILE_NAME
+    rm $SERVICE_DSC_FILE_PATH
+fi
 
-echo ""
+log "Writing the service"
+cp "$SERVICE_SRC_FILE_PATH" "$SERVICE_DSC_FILE_PATH"
+
+log "Reloading systemctl daemons"
+systemctl daemon-reload
+
+log "Enabling the service"
+systemctl enable $SERVICE_FILE_NAME
+
+log "Starting the service: $SERVICE_FILE_NAME"
+systemctl start $SERVICE_FILE_NAME
+
 log "[ Done ]"
 
