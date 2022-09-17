@@ -27,7 +27,7 @@ def zakhar_only_void(func):
     def d(*args, **kwargs):
         if not is_zakhar_environment():
             return
-        func(*args, **kwargs)
+        return func(*args, **kwargs)
 
     return d
 
@@ -36,7 +36,7 @@ def zakhar_only_str(func):
     def d(*args, **kwargs):
         if not is_zakhar_environment():
             return ""
-        func(*args, **kwargs)
+        return func(*args, **kwargs)
 
     return d
 

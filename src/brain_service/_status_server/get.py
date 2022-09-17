@@ -42,12 +42,11 @@ class Get:
     @staticmethod
     @zakhar_only_str
     def wifi() -> str:
-        # TODO Find more reliable solution of getting WIFI name
+        result = "[Ethernet]"
         try:
-            out = subprocess.check_output("iwgetid").decode()
-            wf = out.strip("wlan0").strip().strip("ESSID:").strip("\"")
-            if str(wf) == "None":
-                wf = "Unknown"
+            wf = subprocess.check_output(["iwgetid", "-r"]).decode().strip()
+            if wf:
+                result = wf
         except subprocess.CalledProcessError:
-            wf = "[Error]"
-        return wf
+            result = "[Error]"
+        return result
