@@ -1,4 +1,8 @@
-# Zakhar Brain Service
+---
+title: "Brain: Service"
+---
+
+# Brain: Service
 
 [![view - Documentation](https://img.shields.io/badge/Source%20Code-GitHub-blue)](https://github.com/Zakhar-the-Robot/brain_service "Go to repository")
 
